@@ -28,30 +28,35 @@ class ConcreteGenerator:
 
     async def research_topic(self, query: str) -> str:
         """Make API call to Perplexity for research."""
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                "https://api.perplexity.ai/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {self.perplexity_api_key}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": "llama-3.1-sonar-small-128k-online",
-                    "messages": [{"role": "user", "content": f"Research this topic for a website: {query}"}],
-                }
-            )
-            # Add error handling and debug the response
-            if response.status_code != 200:
-                print(f"Error: {response.status_code}")
-                print(f"Response: {response.text}")
-                return "Error researching topic"
-            
-            data = response.json()
-            # Debug the actual response structure
-            # print(f"API Response: {json.dumps(data, indent=2)}")
-            
-            # Update the response parsing based on actual Perplexity API structure
-            return data.get("choices", [{}])[0].get("message", {}).get("content", "No research data found")
+        try:
+            # Set timeout to 30 seconds
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                response = await client.post(
+                    "https://api.perplexity.ai/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {self.perplexity_api_key}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": "llama-3.1-sonar-small-128k-online",
+                        "messages": [{"role": "user", "content": f"Research this topic for a website: {query}"}],
+                    }
+                )
+                # Add error handling and debug the response
+                if response.status_code != 200:
+                    print(f"Error: {response.status_code}")
+                    print(f"Response: {response.text}")
+                    return "Error researching topic"
+                
+                data = response.json()
+                return data.get("choices", [{}])[0].get("message", {}).get("content", "No research data found")
+                
+        except httpx.ReadTimeout:
+            print("Research API timed out. Continuing without research data...")
+            return f"Unable to research topic due to timeout: {query}"
+        except Exception as e:
+            print(f"Unexpected error during research: {str(e)}")
+            return f"Error researching topic: {query}"
 
     async def get_claude_response(self, prompt: str) -> str:
         """Get response from Claude API."""
@@ -180,43 +185,26 @@ class ConcreteGenerator:
         """
         return await self.get_claude_response(structure_prompt)
     
-    async def generate_base_style_and_template_files(self):
+    async def generate_style_files(self):
         """Generate base style and template files."""
         # Read existing files
-        baseof_path = os.path.join(self.project_dir, "layouts", "_default", "baseof.html")
-        css_path = os.path.join(self.project_dir, "assets", "css", "main.css")
-
-        existing_files = {}
-        for path in [baseof_path]:
-            if os.path.exists(path):
-                with open(path, 'r') as f:
-                    existing_files[os.path.basename(path)] = f.read()
-            else:
-                print(f"Warning: {path} not found")
-                return
+        css_path = os.path.join(self.project_dir, "static", "css", "main.css")
+        js_path = os.path.join(self.project_dir, "static", "js", "theme.js")
 
         # Customize prompt to focus on styling only
         style_prompt = f"""
         Based on the following style guide:
         {self.style_guide}
 
-        Please update the following baseof.html and generate a new main.css file that includes the new styles.
+        Please generate a main.css and a theme.js file with the tailwind config.
 
-        Current files:
-        baseof.html:
-        ```
-        {existing_files['baseof.html']}
-        ```
-
-
-        Please provide the complete updated file content for baseof.html and main.css.
         Only include the text for the files, don't worry about formatting.
         Include nothing else after these 2 files.
 
         Format each response section with clear markers:
-        ---BASEOF---
-        (file content)
         ---CSS---
+        (file content)
+        ---JS---
         (file content)
         """
 
@@ -225,16 +213,16 @@ class ConcreteGenerator:
         
         # Parse sections using markers
         sections = {
-            'baseof': '',
-            'css': ''
+            'css': '',
+            'js': ''
         }
         
         for line in response.split('\n'):
-            if '---BASEOF---' in line:
-                current_section = 'baseof'
-                continue
-            elif '---CSS---' in line:
+            if '---CSS---' in line:
                 current_section = 'css'
+                continue
+            elif '---JS---' in line:
+                current_section = 'js'
                 continue
             
             if current_section:
@@ -245,14 +233,13 @@ class ConcreteGenerator:
             if not content.strip():
                 continue
             
-            if file_name == 'baseof':
-                # Apply class and style attribute updates to baseof.html
-                with open(baseof_path, 'w') as f:
+            if file_name == 'css':
+                with open(css_path, 'w') as f:
                     f.write(content)
                     
-            elif file_name == 'css':
+            elif file_name == 'js':
                 # Append new CSS rules to main.css
-                with open(css_path, 'a') as f:
+                with open(js_path, 'a') as f:
                     f.write(content)
                     
 
@@ -261,15 +248,12 @@ class ConcreteGenerator:
     async def generate_navigation_partials(self):
         """Generate header and footer partial templates based on style and structure guides."""
         nav_prompt = f"""
-        Based on the following style and structure guides:
-        
-        Style Guide:
-        {self.style_guide}
+        Based on the following structure guide:
 
         Structure Guide:
         {self.structure_guide}
 
-        Generate two Hugo partial templates:
+        Generate two Hugo partial templates, using tailwind css:
         1. A header partial (header.html) with primary navigation
         2. A footer partial (footer.html) with footer sections
 
@@ -314,15 +298,12 @@ class ConcreteGenerator:
     async def generate_index_files(self):
         """Generate index.html and index.md files for the home page."""
         index_prompt = f"""
-        Based on the following style and structure guides:
+        Based on the following structure guide:
         
-        Style Guide:
-        {self.style_guide}
-
         Structure Guide:
         {self.structure_guide}
 
-        Generate two files for the Hugo home page:
+        Generate two files for the Hugo home page, using tailwind css:
         1. A layout template (index.html) that defines the home page structure
         2. A content file (index.md) with the actual content and front matter
 
@@ -453,8 +434,8 @@ class ConcreteGenerator:
         self.structure_guide = await self.generate_structure_guide()
         await self.generate_and_save_markdown(self.structure_guide, "structure.md")
 
-        print("\nGenerating base style and template files...")
-        await self.generate_base_style_and_template_files()
+        print("\nGenerating style files...")
+        await self.generate_style_files()
 
         print("\nGenerating navigation partials...")
         await self.generate_navigation_partials()
