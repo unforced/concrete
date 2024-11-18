@@ -1,11 +1,11 @@
 import os
 import json
 from anthropic import Anthropic
-from perplexipy import PerplexityClient
 import httpx
 import asyncio
 from typing import Dict, List
 from dotenv import load_dotenv
+import zipfile
 
 class ConcreteGenerator:
     def __init__(self):
@@ -17,6 +17,9 @@ class ConcreteGenerator:
         self.research_data = ""
         self.style_guide = ""
         self.structure_guide = ""
+        self.project_name = ""
+        self.project_dir = ""
+        self.guides_dir = ""
 
     async def get_user_input(self, prompt: str) -> str:
         """Get input from user with given prompt."""
@@ -60,11 +63,30 @@ class ConcreteGenerator:
         # Extract just the text content from the response
         return message.content[0].text if isinstance(message.content, list) else message.content
 
+    async def setup_project_directories(self):
+        """Create project directories and extract template."""
+        self.project_dir = os.path.join(os.getcwd(), self.project_name)
+        self.guides_dir = os.path.join(self.project_dir, "guides")
+        
+        # Create directories
+        os.makedirs(self.project_dir, exist_ok=True)
+        os.makedirs(self.guides_dir, exist_ok=True)
+        
+        # Extract template
+        template_path = "template.zip"
+        if os.path.exists(template_path):
+            with zipfile.ZipFile(template_path, 'r') as zip_ref:
+                zip_ref.extractall(self.project_dir)
+            print(f"\nTemplate extracted to {self.project_dir}")
+        else:
+            print("\nWarning: template.zip not found")
+
     async def generate_and_save_markdown(self, content: str, filename: str):
-        """Save generated content to markdown file."""
-        with open(filename, 'w') as f:
+        """Save generated content to markdown file in guides directory."""
+        filepath = os.path.join(self.guides_dir, filename)
+        with open(filepath, 'w') as f:
             f.write(content)
-        print(f"\nSaved {filename}")
+        print(f"\nSaved {filepath}")
 
     async def generate_style_guide(self) -> str:
         """Generate style guide using Claude."""
@@ -72,15 +94,31 @@ class ConcreteGenerator:
         Based on the following project information and goals:
         {json.dumps(self.project_info, indent=2)}
 
-        Generate a comprehensive style guide markdown file that includes:
-        1. Color scheme with hex codes
-        2. Typography choices
-        3. Visual elements and imagery style
-        4. UI/UX principles
-        5. Mood and aesthetic direction
-        6. Brand voice and tone
+        Generate a comprehensive style guide that includes:
+        1. Core Message (3 sentences maximum)
+        * Primary purpose/mission
+        * Target audience
+        * Key differentiator
+        2. Thematic Elements (up to 5)
+        * List key conceptual themes
+        * Associated imagery/motifs
+        * Emotional resonance
+        3. Design Direction
+        * Overall aesthetic (e.g., minimal, organic, technical)
+        * Typography characteristics
+        * Visual hierarchy principles
+        * Spacing/whitespace philosophy
+        * UI component personality
+        4. Color Palette
+        * Primary color with hex code
+        * Secondary color with hex code
+        * Accent color with hex code
+        * Two neutral tones with hex codes
+        * Contextual use guidelines
 
-        Format the response in markdown.
+        Format output as a structured markdown file that can serve as a single source of truth for both messaging and visual design decisions.
+
+        [Paste your content here]
         """
         return await self.get_claude_response(style_prompt)
 
@@ -90,24 +128,74 @@ class ConcreteGenerator:
         Based on the following project information and goals:
         {json.dumps(self.project_info, indent=2)}
 
-        Generate a comprehensive site structure markdown file that includes:
-        1. Overview of all pages
-        2. Navigation structure
-        3. Brief content outline for each page
-        4. Key components and sections
-        5. User flow considerations
+        Using the provided project information, generate a concise site structure document that includes:
 
-        Format the response in markdown.
+        1. Navigation Structure
+        * Primary navigation menu items
+        * Any secondary navigation needs
+        * Footer links organization
+
+        2. Page Overview
+        For each page, provide:
+        * Page title
+        * One-sentence purpose
+        * 3-4 key content blocks (bullet points)
+        * Primary call-to-action
+
+        Example Format:
+
+        ## Navigation Structure
+        Primary Menu:
+        - Home
+        - About
+        - Projects
+        - Contact
+
+        Footer Sections:
+        - Contact Info
+        - Quick Links
+        - Newsletter Signup
+
+        ## Pages
+
+        ### Home
+        Purpose: Introduce visitors to [project] and inspire engagement
+        Content:
+        - Hero section with main message
+        - Core mission/value proposition
+        - Featured projects/initiatives
+        CTA: "Join Our Community"
+
+        ### About
+        Purpose: Share our story and mission
+        Content:
+        - Mission and vision
+        - Team/organization overview
+        - Impact highlights
+        CTA: "Get Involved"
+
+        [Continue for each page...]
+
+        Format output as a structured markdown file that serves as a high-level blueprint for site content and organization.
         """
         return await self.get_claude_response(structure_prompt)
 
     async def run(self):
         """Main execution flow."""
+        # Get project name first
+        self.project_name = await self.get_user_input(
+            "What is the name of your project? This will be used as the directory name:"
+        )
+        
+        # Setup project structure
+        await self.setup_project_directories()
+        
         # Initial project information
+        self.project_info["name"] = self.project_name
         self.project_info["purpose"] = await self.get_user_input(
             "What is the purpose of your website? Please describe your project or brand:"
         )
-
+        
         # Research phase
         print("\nResearching your topic...")
         self.research_data = await self.research_topic(self.project_info["purpose"])
