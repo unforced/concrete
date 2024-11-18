@@ -179,6 +179,197 @@ class ConcreteGenerator:
         Format output as a structured markdown file that serves as a high-level blueprint for site content and organization.
         """
         return await self.get_claude_response(structure_prompt)
+    
+    async def generate_base_style_and_template_files(self):
+        """Generate base style and template files."""
+        # Read existing files
+        baseof_path = os.path.join(self.project_dir, "layouts", "_default", "baseof.html")
+        css_path = os.path.join(self.project_dir, "assets", "css", "main.css")
+
+        existing_files = {}
+        for path in [baseof_path]:
+            if os.path.exists(path):
+                with open(path, 'r') as f:
+                    existing_files[os.path.basename(path)] = f.read()
+            else:
+                print(f"Warning: {path} not found")
+                return
+
+        # Customize prompt to focus on styling only
+        style_prompt = f"""
+        Based on the following style guide:
+        {self.style_guide}
+
+        Please update the following baseof.html and generate a new main.css file that includes the new styles.
+
+        Current files:
+        baseof.html:
+        ```
+        {existing_files['baseof.html']}
+        ```
+
+
+        Please provide the complete updated file content for baseof.html and main.css.
+        Only include the text for the files, don't worry about formatting.
+        Include nothing else after these 2 files.
+
+        Format each response section with clear markers:
+        ---BASEOF---
+        (file content)
+        ---CSS---
+        (file content)
+        """
+
+        # Get response and parse updates
+        response = await self.get_claude_response(style_prompt)
+        
+        # Parse sections using markers
+        sections = {
+            'baseof': '',
+            'css': ''
+        }
+        
+        for line in response.split('\n'):
+            if '---BASEOF---' in line:
+                current_section = 'baseof'
+                continue
+            elif '---CSS---' in line:
+                current_section = 'css'
+                continue
+            
+            if current_section:
+                sections[current_section] += line + '\n'
+
+        # Apply updates to files
+        for file_name, content in sections.items():
+            if not content.strip():
+                continue
+            
+            if file_name == 'baseof':
+                # Apply class and style attribute updates to baseof.html
+                with open(baseof_path, 'w') as f:
+                    f.write(content)
+                    
+            elif file_name == 'css':
+                # Append new CSS rules to main.css
+                with open(css_path, 'a') as f:
+                    f.write(content)
+                    
+
+        print("\nStyle updates have been applied to template files")
+
+    async def generate_navigation_partials(self):
+        """Generate header and footer partial templates based on style and structure guides."""
+        nav_prompt = f"""
+        Based on the following style and structure guides:
+        
+        Style Guide:
+        {self.style_guide}
+
+        Structure Guide:
+        {self.structure_guide}
+
+        Generate two Hugo partial templates:
+        1. A header partial (header.html) with primary navigation
+        2. A footer partial (footer.html) with footer sections
+
+        Format each response section with clear markers:
+        ---HEADER---
+        (header.html content)
+        ---FOOTER---
+        (footer.html content)
+
+        Only include the text for the files, don't worry about formatting.
+        Include nothing else after these 2 files.
+        """
+
+        response = await self.get_claude_response(nav_prompt)
+        
+        # Parse and save partials
+        current_section = None
+        sections = {'header': '', 'footer': ''}
+        
+        for line in response.split('\n'):
+            if '---HEADER---' in line:
+                current_section = 'header'
+                continue
+            elif '---FOOTER---' in line:
+                current_section = 'footer'
+                continue
+            
+            if current_section:
+                sections[current_section] += line + '\n'
+
+        # Save partials
+        partials_dir = os.path.join(self.project_dir, "layouts", "partials")
+        os.makedirs(partials_dir, exist_ok=True)
+
+        for name, content in sections.items():
+            if content.strip():
+                with open(os.path.join(partials_dir, f"{name}.html"), 'w') as f:
+                    f.write(content)
+        
+        print("\nNavigation partials have been generated")
+
+    async def generate_index_files(self):
+        """Generate index.html and index.md files for the home page."""
+        index_prompt = f"""
+        Based on the following style and structure guides:
+        
+        Style Guide:
+        {self.style_guide}
+
+        Structure Guide:
+        {self.structure_guide}
+
+        Generate two files for the Hugo home page:
+        1. A layout template (index.html) that defines the home page structure
+        2. A content file (index.md) with the actual content and front matter
+
+        Format each response section with clear markers:
+        ---HTML---
+        (index.html content)
+        ---MARKDOWN---
+        (index.md content)
+
+        Only include the text for the files, don't worry about formatting.
+        Include nothing else after these 2 files.
+        """
+
+        response = await self.get_claude_response(index_prompt)
+        
+        # Parse and save files
+        current_section = None
+        sections = {'html': '', 'markdown': ''}
+        
+        for line in response.split('\n'):
+            if '---HTML---' in line:
+                current_section = 'html'
+                continue
+            elif '---MARKDOWN---' in line:
+                current_section = 'markdown'
+                continue
+            
+            if current_section:
+                sections[current_section] += line + '\n'
+
+        # Save index.html to layouts
+        home_layout_dir = os.path.join(self.project_dir, "layouts")
+        os.makedirs(home_layout_dir, exist_ok=True)
+        
+        if sections['html'].strip():
+            with open(os.path.join(home_layout_dir, "index.html"), 'w') as f:
+                f.write(sections['html'])
+
+        # Save index.md to content
+        content_dir = os.path.join(self.project_dir, "content")
+        os.makedirs(content_dir, exist_ok=True)
+        
+        if sections['markdown'].strip():
+            with open(os.path.join(content_dir, "_index.md"), 'w') as f:
+                f.write(sections['markdown'])
+        
+        print("\nHome page files have been generated")
 
     async def run(self):
         """Main execution flow."""
@@ -242,7 +433,12 @@ class ConcreteGenerator:
         # Structure guide generation
         print("\nGenerating initial structure concept...")
         structure_concept = await self.get_claude_response(
-            f"Based on the project information, suggest a basic site structure."
+            f"""Based on the following project information:
+            Purpose: {self.project_info["purpose"]}
+            Understanding: {understanding}
+            Feedback: {self.project_info["feedback"]}
+            
+            Suggest a brief structure for this website, with distinct pages to be included"""
         )
         print("\nProposed site structure:")
         print(structure_concept)
@@ -256,6 +452,15 @@ class ConcreteGenerator:
         print("\nGenerating comprehensive structure guide...")
         self.structure_guide = await self.generate_structure_guide()
         await self.generate_and_save_markdown(self.structure_guide, "structure.md")
+
+        print("\nGenerating base style and template files...")
+        await self.generate_base_style_and_template_files()
+
+        print("\nGenerating navigation partials...")
+        await self.generate_navigation_partials()
+
+        print("\nGenerating home page files...")
+        await self.generate_index_files()
 
 async def main():
     generator = ConcreteGenerator()
