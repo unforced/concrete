@@ -1,0 +1,27 @@
+style_guide:
+  load_context:
+    - overview
+  prompt: |
+    Generate a comprehensive style guide markdown file that includes:
+    1. Color scheme with hex codes
+    2. Typography choices
+    3. Visual elements and imagery style
+    4. UI/UX principles
+    5. Mood and aesthetic direction
+    6. Brand voice and tone
+    Format the response in markdown.
+  save_context: style_guide
+  save_file: "style_guide.md"
+structure_guide:
+  load_context:
+    - overview
+  prompt: |
+    Generate a comprehensive site structure markdown file that includes:
+    1. Overview of all pages
+    2. Navigation structure
+    3. Brief content outline for each page
+    4. Key components and sections
+    5. User flow considerations
+    Format the response in markdown.
+  save_context: structure_guide
+  save_file: "structure_guide.md"

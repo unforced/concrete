@@ -6,6 +6,7 @@ import httpx
 import asyncio
 from typing import Dict, List
 from dotenv import load_dotenv
+import yaml
 
 class ConcreteGenerator:
     def __init__(self):
@@ -13,10 +14,11 @@ class ConcreteGenerator:
         load_dotenv()
         self.anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
         self.perplexity_api_key = os.getenv("PERPLEXITY_API_KEY")
-        self.project_info = {}
+        self.context = {}
         self.research_data = ""
         self.style_guide = ""
         self.structure_guide = ""
+        self.prompts = yaml.load(open("prompts.yaml"), Loader=yaml.FullLoader)
 
     async def get_user_input(self, prompt: str) -> str:
         """Get input from user with given prompt."""
@@ -68,73 +70,57 @@ class ConcreteGenerator:
 
     async def generate_style_guide(self) -> str:
         """Generate style guide using Claude."""
-        style_prompt = f"""
-        Based on the following project information and goals:
-        {json.dumps(self.project_info, indent=2)}
-
-        Generate a comprehensive style guide markdown file that includes:
-        1. Color scheme with hex codes
-        2. Typography choices
-        3. Visual elements and imagery style
-        4. UI/UX principles
-        5. Mood and aesthetic direction
-        6. Brand voice and tone
-
-        Format the response in markdown.
-        """
-        return await self.get_claude_response(style_prompt)
+        return await self.make_prompt("style_guide")
+    
+    async def make_prompt(self, prompt_name: str) -> str:
+        """Make a prompt from the prompts.yaml file."""
+        prompt = self.prompts[prompt_name]["prompt"]
+        load_context = self.prompts[prompt_name]["load_context"]
+        prompt_with_context = "Given the following context:\n"
+        for item in load_context:
+            prompt_with_context += f"{item}:\n{self.context[item]}\n\n"
+        prompt_with_context += "===END CONTEXT===\n\n"
+        prompt_with_context += prompt
+        return await self.get_claude_response(prompt_with_context)
 
     async def generate_structure_guide(self) -> str:
         """Generate structure guide using Claude."""
-        structure_prompt = f"""
-        Based on the following project information and goals:
-        {json.dumps(self.project_info, indent=2)}
-
-        Generate a comprehensive site structure markdown file that includes:
-        1. Overview of all pages
-        2. Navigation structure
-        3. Brief content outline for each page
-        4. Key components and sections
-        5. User flow considerations
-
-        Format the response in markdown.
-        """
-        return await self.get_claude_response(structure_prompt)
+        return await self.make_prompt("structure_guide")
 
     async def run(self):
         """Main execution flow."""
         # Initial project information
-        self.project_info["purpose"] = await self.get_user_input(
+        self.context["purpose"] = await self.get_user_input(
             "What is the purpose of your website? Please describe your project or brand:"
         )
 
         # Research phase
         print("\nResearching your topic...")
-        self.research_data = await self.research_topic(self.project_info["purpose"])
+        self.research_data = await self.research_topic(self.context["purpose"])
         
         # Validate understanding
         understanding_prompt = f"""Based on the user's input and research:
-        User Input: {self.project_info["purpose"]}
+        User Input: {self.context["purpose"]}
         Research: {self.research_data}
         
         Please provide a concise summary of the website's purpose and target audience."""
         
-        understanding = await self.get_claude_response(understanding_prompt)
+        self.context['overview'] = await self.get_claude_response(understanding_prompt)
         print("\nHere's my understanding of your website's purpose:")
-        print(understanding)
+        print(self.context['overview'])
         
         feedback = await self.get_user_input(
             "Is this understanding correct? Please provide any corrections or additional information:"
         )
-        self.project_info["feedback"] = feedback
+        self.context["feedback"] = feedback
 
         # Style guide generation
         print("\nGenerating initial style concepts...")
         style_concept = await self.get_claude_response(
             f"""Based on the following project information:
-            Purpose: {self.project_info["purpose"]}
-            Understanding: {understanding}
-            Feedback: {self.project_info["feedback"]}
+            Purpose: {self.context["purpose"]}
+            Understanding: {self.context['overview']}
+            Feedback: {self.context["feedback"]}
             
             Suggest a brief style direction for this website."""
         )
@@ -144,12 +130,12 @@ class ConcreteGenerator:
         style_feedback = await self.get_user_input(
             "How does this style direction sound? Please provide any feedback:"
         )
-        self.project_info["style_feedback"] = style_feedback
+        self.context["style_feedback"] = style_feedback
 
         # Generate and save final style guide
         print("\nGenerating comprehensive style guide...")
-        self.style_guide = await self.generate_style_guide()
-        await self.generate_and_save_markdown(self.style_guide, "style.md")
+        self.context['style_guide'] = await self.generate_style_guide()
+        await self.generate_and_save_markdown(self.context['style_guide'], "style.md")
 
         # Structure guide generation
         print("\nGenerating initial structure concept...")
@@ -162,12 +148,12 @@ class ConcreteGenerator:
         structure_feedback = await self.get_user_input(
             "How does this structure sound? Please provide any feedback:"
         )
-        self.project_info["structure_feedback"] = structure_feedback
+        self.context["structure_feedback"] = structure_feedback
 
         # Generate and save final structure guide
         print("\nGenerating comprehensive structure guide...")
-        self.structure_guide = await self.generate_structure_guide()
-        await self.generate_and_save_markdown(self.structure_guide, "structure.md")
+        self.context["structure_guide"] = await self.generate_structure_guide()
+        await self.generate_and_save_markdown(self.context["structure_guide"], "structure.md")
 
 async def main():
     generator = ConcreteGenerator()
