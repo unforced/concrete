@@ -1,3 +1,14 @@
+overview:
+  load_context:
+    - project_info
+  prompt: |
+    - Discern what is the topic of focus from this project information.
+    - Generate a concise and detailed overview of the topic.
+    - This overview will be used as a source of truth to guide the style and structure of the website.
+
+    Output as a markdown file.
+  save_context: overview
+  save_file: "overview.md"
 style_guide:
   load_context:
     - overview

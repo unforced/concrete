@@ -7,9 +7,10 @@ from typing import Dict, List
 from dotenv import load_dotenv
 import yaml
 import zipfile
+import argparse
 
 class ConcreteGenerator:
-    def __init__(self):
+    def __init__(self, project_name=None, input_file=None):
         # Load environment variables from .env file
         load_dotenv()
         self.anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
@@ -19,46 +20,15 @@ class ConcreteGenerator:
         self.style_guide = ""
         self.structure_guide = ""
         self.prompts = yaml.load(open("prompts.yaml"), Loader=yaml.FullLoader)
-        self.project_name = ""
+        self.project_name = project_name
         self.project_dir = ""
         self.guides_dir = ""
+        self.input_file = input_file
 
     async def get_user_input(self, prompt: str) -> str:
         """Get input from user with given prompt."""
         print("\n" + prompt)
         return input("> ").strip()
-
-    async def research_topic(self, query: str) -> str:
-        """Make API call to Perplexity for research."""
-        try:
-            # Set timeout to 30 seconds
-            async with httpx.AsyncClient(timeout=30.0) as client:
-                response = await client.post(
-                    "https://api.perplexity.ai/chat/completions",
-                    headers={
-                        "Authorization": f"Bearer {self.perplexity_api_key}",
-                        "Content-Type": "application/json",
-                    },
-                    json={
-                        "model": "llama-3.1-sonar-small-128k-online",
-                        "messages": [{"role": "user", "content": f"Research this topic for a website: {query}"}],
-                    }
-                )
-                # Add error handling and debug the response
-                if response.status_code != 200:
-                    print(f"Error: {response.status_code}")
-                    print(f"Response: {response.text}")
-                    return "Error researching topic"
-                
-                data = response.json()
-                return data.get("choices", [{}])[0].get("message", {}).get("content", "No research data found")
-                
-        except httpx.ReadTimeout:
-            print("Research API timed out. Continuing without research data...")
-            return f"Unable to research topic due to timeout: {query}"
-        except Exception as e:
-            print(f"Unexpected error during research: {str(e)}")
-            return f"Error researching topic: {query}"
 
     async def get_claude_response(self, prompt: str) -> str:
         """Get response from Claude API."""
@@ -94,27 +64,22 @@ class ConcreteGenerator:
         with open(filepath, 'w') as f:
             f.write(content)
         print(f"\nSaved {filepath}")
-
-    async def generate_style_guide(self) -> str:
-        """Generate style guide using Claude."""
-        return await self.make_prompt("style_guide")
     
-    async def make_prompt(self, prompt_name: str) -> str:
+    async def call_and_save_prompt(self, prompt_name: str) -> str:
         """Make a prompt from the prompts.yaml file."""
         prompt = self.prompts[prompt_name]["prompt"]
+        save_context = self.prompts[prompt_name]["save_context"]
+        save_file = self.prompts[prompt_name]["save_file"]
         load_context = self.prompts[prompt_name]["load_context"]
         prompt_with_context = "Given the following context:\n"
         for item in load_context:
             prompt_with_context += f"{item}:\n{self.context[item]}\n\n"
         prompt_with_context += "===END CONTEXT===\n\n"
         prompt_with_context += prompt
-        return await self.get_claude_response(prompt_with_context)
+        response = await self.get_claude_response(prompt_with_context)
+        self.context[save_context] = response
+        await self.generate_and_save_markdown(response, save_file)
 
-
-    async def generate_structure_guide(self) -> str:
-        """Generate structure guide using Claude."""
-        return await self.make_prompt("structure_guide")
-    
     async def generate_style_files(self):
         """Generate base style and template files."""
         # Read existing files
@@ -124,7 +89,7 @@ class ConcreteGenerator:
         # Customize prompt to focus on styling only
         style_prompt = f"""
         Based on the following style guide:
-        {self.style_guide}
+        {self.context['style_guide']}
 
         Please generate a main.css and a theme.js file with the tailwind config.
 
@@ -181,7 +146,7 @@ class ConcreteGenerator:
         Based on the following structure guide:
 
         Structure Guide:
-        {self.structure_guide}
+        {self.context['structure_guide']}
 
         Generate two Hugo partial templates, using tailwind css:
         1. A header partial (header.html) with primary navigation
@@ -284,86 +249,72 @@ class ConcreteGenerator:
 
     async def run(self):
         """Main execution flow."""
-        # Get project name first
-        self.project_name = await self.get_user_input(
-            "What is the name of your project? This will be used as the directory name:"
-        )
+        # Get project name if not provided
+        if not self.project_name:
+            self.project_name = await self.get_user_input(
+                "What is the name of your project? This will be used as the directory name:"
+            )
         
         # Setup project structure
         await self.setup_project_directories()
         
-        # Initial project information
-        self.context["purpose"] = await self.get_user_input()
-        self.context["name"] = self.project_name
-        self.context["purpose"] = await self.get_user_input(
-            "What is the purpose of your website? Please describe your project or brand:"
-        )
+        # Load initial project information from file if provided
+        if self.input_file and os.path.exists(self.input_file):
+            with open(self.input_file, 'r') as f:
+                self.context['project_info'] = f.read()
         
-        # Research phase
-        print("\nResearching your topic...")
-        self.research_data = await self.research_topic(self.context["purpose"])
-        
-        # Validate understanding
-        understanding_prompt = f"""Based on the user's input and research:
-        User Input: {self.context["purpose"]}
-        Research: {self.research_data}
-        
-        Please provide a concise summary of the website's purpose and target audience."""
-        
-        self.context['overview'] = await self.get_claude_response(understanding_prompt)
+        await self.call_and_save_prompt("overview")
         print("\nHere's my understanding of your website's purpose:")
         print(self.context['overview'])
         
-        feedback = await self.get_user_input(
-            "Is this understanding correct? Please provide any corrections or additional information:"
-        )
-        self.context["feedback"] = feedback
+        # feedback = await self.get_user_input(
+        #     "Is this understanding correct? Please provide any corrections or additional information:"
+        # )
+        # self.context["feedback"] = feedback
 
         # Style guide generation
-        print("\nGenerating initial style concepts...")
-        style_concept = await self.get_claude_response(
-            f"""Based on the following project information:
-            Purpose: {self.context["purpose"]}
-            Understanding: {self.context['overview']}
-            Feedback: {self.context["feedback"]}
+        # print("\nGenerating initial style concepts...")
+        # style_concept = await self.get_claude_response(
+        #     f"""Based on the following project information:
+        #     Purpose: {self.context["purpose"]}
+        #     Understanding: {self.context['overview']}
+        #     Feedback: {self.context["feedback"]}
             
-            Suggest a brief style direction for this website."""
-        )
-        print("\nProposed style direction:")
-        print(style_concept)
+        #     Suggest a brief style direction for this website."""
+        # )
+        # print("\nProposed style direction:")
+        # print(style_concept)
         
-        style_feedback = await self.get_user_input(
-            "How does this style direction sound? Please provide any feedback:"
-        )
-        self.context["style_feedback"] = style_feedback
+        # style_feedback = await self.get_user_input(
+        #     "How does this style direction sound? Please provide any feedback:"
+        # )
+        # self.context["style_feedback"] = style_feedback
 
         # Generate and save final style guide
         print("\nGenerating comprehensive style guide...")
-        self.context['style_guide'] = await self.generate_style_guide()
-        await self.generate_and_save_markdown(self.context['style_guide'], "style.md")
+        await self.call_and_save_prompt("style_guide")
 
         # Structure guide generation
-        print("\nGenerating initial structure concept...")
-        structure_concept = await self.get_claude_response(
-            f"""Based on the following project information:
-            Purpose: {self.project_info["purpose"]}
-            Understanding: {self.context["overview"]}
-            Feedback: {self.project_info["feedback"]}
+        # print("\nGenerating initial structure concept...")
+        # structure_concept = await self.get_claude_response(
+        #     f"""Based on the following project information:
+        #     Purpose: {self.project_info["purpose"]}
+        #     Understanding: {self.context["overview"]}
+        #     Feedback: {self.project_info["feedback"]}
             
-            Suggest a brief structure for this website, with distinct pages to be included"""
-        )
-        print("\nProposed site structure:")
-        print(structure_concept)
+        #     Suggest a brief structure for this website, with distinct pages to be included"""
+        # )
+        # print("\nProposed site structure:")
+        # print(structure_concept)
         
-        structure_feedback = await self.get_user_input(
-            "How does this structure sound? Please provide any feedback:"
-        )
-        self.context["structure_feedback"] = structure_feedback
+        # structure_feedback = await self.get_user_input(
+        #     "How does this structure sound? Please provide any feedback:"
+        # )
+        # self.context["structure_feedback"] = structure_feedback
 
         # Generate and save final structure guide
         print("\nGenerating comprehensive structure guide...")
-        self.context["structure_guide"] = await self.generate_structure_guide()
-        await self.generate_and_save_markdown(self.context["structure_guide"], "structure.md")
+        await self.call_and_save_prompt("structure_guide")
 
         print("\nGenerating style files...")
         await self.generate_style_files()
@@ -375,7 +326,14 @@ class ConcreteGenerator:
         await self.generate_index_files()
 
 async def main():
-    generator = ConcreteGenerator()
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description='Generate a concrete website project')
+    parser.add_argument('-n', '--name', help='Project name')
+    parser.add_argument('-f', '--file', help='Input file path containing project information')
+    
+    args = parser.parse_args()
+    
+    generator = ConcreteGenerator(project_name=args.name, input_file=args.file)
     await generator.run()
 
 if __name__ == "__main__":
