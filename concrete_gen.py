@@ -23,6 +23,8 @@ class ConcreteGenerator:
         self.project_name = project_name
         self.project_dir = ""
         self.guides_dir = ""
+        self.layouts_dir = ""
+        self.content_dir = ""
         self.input_file = input_file
 
     async def get_user_input(self, prompt: str) -> str:
@@ -44,10 +46,13 @@ class ConcreteGenerator:
         """Create project directories and extract template."""
         self.project_dir = os.path.join(os.getcwd(), self.project_name)
         self.guides_dir = os.path.join(self.project_dir, "guides")
-        
+        self.layouts_dir = os.path.join(self.project_dir, "layouts")
+        self.content_dir = os.path.join(self.project_dir, "content")
         # Create directories
         os.makedirs(self.project_dir, exist_ok=True)
         os.makedirs(self.guides_dir, exist_ok=True)
+        os.makedirs(self.layouts_dir, exist_ok=True)
+        os.makedirs(self.content_dir, exist_ok=True)
         
         # Extract template
         template_path = "template.zip"
@@ -58,8 +63,8 @@ class ConcreteGenerator:
         else:
             print("\nWarning: template.zip not found")
 
-    async def generate_and_save_markdown(self, content: str, filename: str):
-        """Save generated content to markdown file in guides directory."""
+    async def save_file(self, content: str, filename: str):
+        """Save generated content to file."""
         filepath = os.path.join(self.guides_dir, filename)
         with open(filepath, 'w') as f:
             f.write(content)
@@ -68,184 +73,25 @@ class ConcreteGenerator:
     async def call_and_save_prompt(self, prompt_name: str) -> str:
         """Make a prompt from the prompts.yaml file."""
         prompt = self.prompts[prompt_name]["prompt"]
-        save_context = self.prompts[prompt_name]["save_context"]
-        save_file = self.prompts[prompt_name]["save_file"]
-        load_context = self.prompts[prompt_name]["load_context"]
+        save_context = self.prompts[prompt_name].get("save_context")
+        save_guide = self.prompts[prompt_name].get("save_guide")
+        save_layout = self.prompts[prompt_name].get("save_layout")
+        save_content = self.prompts[prompt_name].get("save_content")
+        load_context = self.prompts[prompt_name].get("load_context")
         prompt_with_context = "Given the following context:\n"
         for item in load_context:
             prompt_with_context += f"{item}:\n{self.context[item]}\n\n"
         prompt_with_context += "===END CONTEXT===\n\n"
         prompt_with_context += prompt
         response = await self.get_claude_response(prompt_with_context)
-        self.context[save_context] = response
-        await self.generate_and_save_markdown(response, save_file)
-
-    async def generate_style_files(self):
-        """Generate base style and template files."""
-        # Read existing files
-        css_path = os.path.join(self.project_dir, "static", "css", "main.css")
-        js_path = os.path.join(self.project_dir, "static", "js", "theme.js")
-
-        # Customize prompt to focus on styling only
-        style_prompt = f"""
-        Based on the following style guide:
-        {self.context['style_guide']}
-
-        Please generate a main.css and a theme.js file with the tailwind config.
-
-        Only include the text for the files, don't worry about formatting.
-        Include nothing else after these 2 files.
-
-        Format each response section with clear markers:
-        ---CSS---
-        (file content)
-        ---JS---
-        (file content)
-        """
-
-        # Get response and parse updates
-        response = await self.get_claude_response(style_prompt)
-        
-        # Parse sections using markers
-        sections = {
-            'css': '',
-            'js': ''
-        }
-        
-        for line in response.split('\n'):
-            if '---CSS---' in line:
-                current_section = 'css'
-                continue
-            elif '---JS---' in line:
-                current_section = 'js'
-                continue
-            
-            if current_section:
-                sections[current_section] += line + '\n'
-
-        # Apply updates to files
-        for file_name, content in sections.items():
-            if not content.strip():
-                continue
-            
-            if file_name == 'css':
-                with open(css_path, 'w') as f:
-                    f.write(content)
-                    
-            elif file_name == 'js':
-                # Append new CSS rules to main.css
-                with open(js_path, 'a') as f:
-                    f.write(content)
-                    
-
-        print("\nStyle updates have been applied to template files")
-
-    async def generate_navigation_partials(self):
-        """Generate header and footer partial templates based on style and structure guides."""
-        nav_prompt = f"""
-        Based on the following structure guide:
-
-        Structure Guide:
-        {self.context['structure_guide']}
-
-        Generate two Hugo partial templates, using tailwind css:
-        1. A header partial (header.html) with primary navigation
-        2. A footer partial (footer.html) with footer sections
-
-        Format each response section with clear markers:
-        ---HEADER---
-        (header.html content)
-        ---FOOTER---
-        (footer.html content)
-
-        Only include the text for the files, don't worry about formatting.
-        Include nothing else after these 2 files.
-        """
-
-        response = await self.get_claude_response(nav_prompt)
-        
-        # Parse and save partials
-        current_section = None
-        sections = {'header': '', 'footer': ''}
-        
-        for line in response.split('\n'):
-            if '---HEADER---' in line:
-                current_section = 'header'
-                continue
-            elif '---FOOTER---' in line:
-                current_section = 'footer'
-                continue
-            
-            if current_section:
-                sections[current_section] += line + '\n'
-
-        # Save partials
-        partials_dir = os.path.join(self.project_dir, "layouts", "partials")
-        os.makedirs(partials_dir, exist_ok=True)
-
-        for name, content in sections.items():
-            if content.strip():
-                with open(os.path.join(partials_dir, f"{name}.html"), 'w') as f:
-                    f.write(content)
-        
-        print("\nNavigation partials have been generated")
-
-    async def generate_index_files(self):
-        """Generate index.html and index.md files for the home page."""
-        index_prompt = f"""
-        Based on the following structure guide:
-        
-        Structure Guide:
-        {self.structure_guide}
-
-        Generate two files for the Hugo home page, using tailwind css:
-        1. A layout template (index.html) that defines the home page structure
-        2. A content file (index.md) with the actual content and front matter
-
-        Format each response section with clear markers:
-        ---HTML---
-        (index.html content)
-        ---MARKDOWN---
-        (index.md content)
-
-        Only include the text for the files, don't worry about formatting.
-        Include nothing else after these 2 files.
-        """
-
-        response = await self.get_claude_response(index_prompt)
-        
-        # Parse and save files
-        current_section = None
-        sections = {'html': '', 'markdown': ''}
-        
-        for line in response.split('\n'):
-            if '---HTML---' in line:
-                current_section = 'html'
-                continue
-            elif '---MARKDOWN---' in line:
-                current_section = 'markdown'
-                continue
-            
-            if current_section:
-                sections[current_section] += line + '\n'
-
-        # Save index.html to layouts
-        home_layout_dir = os.path.join(self.project_dir, "layouts")
-        os.makedirs(home_layout_dir, exist_ok=True)
-        
-        if sections['html'].strip():
-            with open(os.path.join(home_layout_dir, "index.html"), 'w') as f:
-                f.write(sections['html'])
-
-        # Save index.md to content
-        content_dir = os.path.join(self.project_dir, "content")
-        os.makedirs(content_dir, exist_ok=True)
-        
-        if sections['markdown'].strip():
-            with open(os.path.join(content_dir, "_index.md"), 'w') as f:
-                f.write(sections['markdown'])
-        
-        print("\nHome page files have been generated")
+        if save_context:
+            self.context[save_context] = response
+        if save_guide:
+            await self.save_file(response, os.path.join(self.guides_dir, save_guide))
+        if save_layout:
+            await self.save_file(response, os.path.join(self.layouts_dir, save_layout))
+        if save_content:
+            await self.save_file(response, os.path.join(self.content_dir, save_content))
 
     async def run(self):
         """Main execution flow."""
@@ -266,64 +112,30 @@ class ConcreteGenerator:
         await self.call_and_save_prompt("overview")
         print("\nHere's my understanding of your website's purpose:")
         print(self.context['overview'])
-        
-        # feedback = await self.get_user_input(
-        #     "Is this understanding correct? Please provide any corrections or additional information:"
-        # )
-        # self.context["feedback"] = feedback
-
-        # Style guide generation
-        # print("\nGenerating initial style concepts...")
-        # style_concept = await self.get_claude_response(
-        #     f"""Based on the following project information:
-        #     Purpose: {self.context["purpose"]}
-        #     Understanding: {self.context['overview']}
-        #     Feedback: {self.context["feedback"]}
-            
-        #     Suggest a brief style direction for this website."""
-        # )
-        # print("\nProposed style direction:")
-        # print(style_concept)
-        
-        # style_feedback = await self.get_user_input(
-        #     "How does this style direction sound? Please provide any feedback:"
-        # )
-        # self.context["style_feedback"] = style_feedback
 
         # Generate and save final style guide
         print("\nGenerating comprehensive style guide...")
         await self.call_and_save_prompt("style_guide")
 
-        # Structure guide generation
-        # print("\nGenerating initial structure concept...")
-        # structure_concept = await self.get_claude_response(
-        #     f"""Based on the following project information:
-        #     Purpose: {self.project_info["purpose"]}
-        #     Understanding: {self.context["overview"]}
-        #     Feedback: {self.project_info["feedback"]}
-            
-        #     Suggest a brief structure for this website, with distinct pages to be included"""
-        # )
-        # print("\nProposed site structure:")
-        # print(structure_concept)
-        
-        # structure_feedback = await self.get_user_input(
-        #     "How does this structure sound? Please provide any feedback:"
-        # )
-        # self.context["structure_feedback"] = structure_feedback
+        print("\nGenerating style plan...")
+        await self.call_and_save_prompt("style_plan")
 
         # Generate and save final structure guide
         print("\nGenerating comprehensive structure guide...")
         await self.call_and_save_prompt("structure_guide")
 
         print("\nGenerating style files...")
-        await self.generate_style_files()
+        await self.call_and_save_prompt("maincss")
+        await self.call_and_save_prompt("themejs")
 
         print("\nGenerating navigation partials...")
-        await self.generate_navigation_partials()
+        await self.call_and_save_prompt("header")
+        await self.call_and_save_prompt("footer")
 
         print("\nGenerating home page files...")
-        await self.generate_index_files()
+        await self.call_and_save_prompt("home_page_guide")
+        await self.call_and_save_prompt("home_page_layout")
+        await self.call_and_save_prompt("home_page_content")
 
 async def main():
     # Set up argument parser

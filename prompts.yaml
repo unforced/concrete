@@ -8,7 +8,7 @@ overview:
 
     Output as a markdown file.
   save_context: overview
-  save_file: "overview.md"
+  save_guide: "overview.md"
 style_guide:
   load_context:
     - overview
@@ -38,7 +38,19 @@ style_guide:
         Format output as a structured markdown file that can serve as a single source of truth for both messaging and visual design decisions.
 
   save_context: style_guide
-  save_file: "style_guide.md"
+  save_guide: "style_guide.md"
+style_plan:
+  load_context:
+    - style_guide
+  prompt: |
+    Generate a style plan that includes:
+    A plan for a main.css file and a theme.js file with tailwind config.
+    No code should be included, only a plan that can be used to generate the code.
+    It should include a plan for the color palette, typography, and any other visual elements.
+    
+    Format the output as a markdown file.
+  save_context: style_plan
+  save_guide: "style_plan.md"
 structure_guide:
   load_context:
     - overview
@@ -91,4 +103,58 @@ structure_guide:
 
             [Continue for each page...]
   save_context: structure_guide
-  save_file: "structure_guide.md"
+  save_guide: "structure_guide.md"
+themejs:
+  load_context:
+    - style_plan
+  prompt: |
+    Generate a theme.js file with tailwind config.
+    This should include a js file and nothing else.
+maincss:
+  load_context:
+    - style_plan
+  prompt: |
+    Generate a main.css file with tailwind config.
+    This should include a css file and nothing else.
+header:
+  load_context:
+    - structure_guide
+  prompt: |
+    Generate a header.html partial for hugo.
+    This should include the html and nothing else.
+  save_context: header
+  save_layout: "partials/header.html"
+footer:
+  load_context:
+    - structure_guide
+  prompt: |
+    Generate a footer.html partial for hugo.
+    This should include the html and nothing else.
+  save_context: footer
+  save_layout: "partials/footer.html"
+home_page_guide:
+  load_context:
+    - structure_guide
+    - overview
+  prompt: |
+    Generate a home page guide. This is used to generate the home page layout and content.
+
+    Format the output as a markdown file.
+  save_context: home_page_guide
+  save_guide: "home_page_guide.md"
+home_page_layout:
+  load_context:
+    - home_page_guide
+  prompt: |
+    Generate a home page index.html layout for hugo.
+    This should include the html and nothing else.
+  save_context: home_page_layout
+  save_layout: "index.html"
+home_page_content:
+  load_context:
+    - home_page_guide
+    - home_page_layout
+  prompt: |
+    Generate a home page index.md content for hugo.
+    This should include the markdown and front matter and nothing else.
+  save_content: "index.md"
