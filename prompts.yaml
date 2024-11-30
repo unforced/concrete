@@ -1,17 +1,20 @@
 overview:
   load_context:
     - project_info
+    - website_intention
   prompt: |
     - Discern what is the topic of focus from this project information.
     - Generate a concise and detailed overview of the topic.
+    - Given the project information and website intention, generate an overview of the website to be built.
     - This overview will be used as a source of truth to guide the style and structure of the website.
 
     Output as a markdown file.
   save_context: overview
-  save_guide: "overview.md"
+  save_file: "guides/overview.md"
 style_guide:
   load_context:
     - overview
+    - project_info
   prompt: |
     Generate a comprehensive style guide that includes:
         1. Core Message (3 sentences maximum)
@@ -38,123 +41,113 @@ style_guide:
         Format output as a structured markdown file that can serve as a single source of truth for both messaging and visual design decisions.
 
   save_context: style_guide
-  save_guide: "style_guide.md"
-style_plan:
-  load_context:
-    - style_guide
-  prompt: |
-    Generate a style plan that includes:
-    A plan for a main.css file and a theme.js file with tailwind config.
-    No code should be included, only a plan that can be used to generate the code.
-    It should include a plan for the color palette, typography, and any other visual elements.
-    
-    Format the output as a markdown file.
-  save_context: style_plan
-  save_guide: "style_plan.md"
+  save_file: "guides/style_guide.md"
 structure_guide:
   load_context:
     - overview
+    - website_intention
   prompt: |
-    Using the provided project information, generate a concise site structure document that includes:
-
-            1. Navigation Structure
-            * Primary navigation menu items
-            * Any secondary navigation needs
-            * Footer links organization
-
-            2. Page Overview
-            For each page, provide:
-            * Page title
-            * One-sentence purpose
-            * 3-4 key content blocks (bullet points)
-            * Primary call-to-action
-
-            Example Format:
-
-            ## Navigation Structure
-            Primary Menu:
-            - Home
-            - About
-            - Projects
-            - Contact
-
-            Footer Sections:
-            - Contact Info
-            - Quick Links
-            - Newsletter Signup
-
-            ## Pages
-
-            ### Home
-            Purpose: Introduce visitors to [project] and inspire engagement
-            Content:
-            - Hero section with main message
-            - Core mission/value proposition
-            - Featured projects/initiatives
-            CTA: "Join Our Community"
-
-            ### About
-            Purpose: Share our story and mission
-            Content:
-            - Mission and vision
-            - Team/organization overview
-            - Impact highlights
-            CTA: "Get Involved"
-
-            [Continue for each page...]
+    Using the provided project information, generate a concise site structure document in yaml.
+    It should include a list of page names and then describe the page title and description.
+    The format will look like this:
+    pages:
+      index:
+        title: "Home"
+        description: "The home page of the website."
+      about:
+        title: "About"
+        description: "Information about the project and the team."
   save_context: structure_guide
-  save_guide: "structure_guide.md"
+  save_file: "guides/structure_guide.yaml"
 themejs:
   load_context:
-    - style_plan
+    - style_guide
   prompt: |
-    Generate a theme.js file with tailwind config.
-    This should include a js file and nothing else.
+    Generate a theme.js file with tailwind config for hugo based on:
+    1. The exact color codes from the style guide
+    2. The typography specifications
+    3. Custom spacing values
+    4. Responsive breakpoints
+    5. Any custom animations or transitions
+    
+    Ensure all color variables are properly named according to their functional use in the style guide.
+  save_context: themejs
+  save_file: "static/js/theme.js"
 maincss:
   load_context:
-    - style_plan
+    - style_guide
   prompt: |
-    Generate a main.css file with tailwind config.
+    Generate a main.css file with tailwind config for use in hugo.
     This should include a css file and nothing else.
+    Don't add any extra formatting like ```css```.
+    It should look like this while containing more information:
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+  save_context: maincss
+  save_file: "static/css/main.css"
 header:
   load_context:
+    - overview
+    - website_intention
+    - style_guide
     - structure_guide
   prompt: |
-    Generate a header.html partial for hugo.
-    This should include the html and nothing else.
+    Using the provided style guide, structure guide, and main.css, generate a header.html partial for hugo.
+    Don't add any extra formatting like ```html```.
+    It should look like this while containing more information:
+      <header class="bg-gray-800 text-white"></header>
+      <nav class="container mx-auto px-4 py-6">
+        <div class="flex justify-between items-center">
+          <a href="/" class="text-xl font-bold">{{ .Site.Title }}</a>
+        </div>
+      </nav>
   save_context: header
-  save_layout: "partials/header.html"
+  save_file: "layouts/partials/header.html"
 footer:
   load_context:
+    - overview
+    - website_intention
+    - style_guide
     - structure_guide
   prompt: |
-    Generate a footer.html partial for hugo.
-    This should include the html and nothing else.
+    Using the provided structure guide, generate a footer.html partial for hugo.
+    Don't add any extra formatting like ```html```.
+    It should look like this while containing more information:
+      <footer class="bg-gray-800 text-white"></footer>
   save_context: footer
-  save_layout: "partials/footer.html"
-home_page_guide:
+  save_file: "layouts/partials/footer.html"
+page_guide:
   load_context:
     - structure_guide
     - overview
   prompt: |
-    Generate a home page guide. This is used to generate the home page layout and content.
+    Using the provided structure guide and overview, generate a guide for the given page.
+    This should detail the structure of the page and what content should be included.
+    Using only this guide, a future prompt should be able to generate the page layout and content.
+    It should go into detail about the various variables that will be used in the page layout and content.
 
     Format the output as a markdown file.
-  save_context: home_page_guide
-  save_guide: "home_page_guide.md"
-home_page_layout:
+page_layout:
   load_context:
-    - home_page_guide
   prompt: |
-    Generate a home page index.html layout for hugo.
-    This should include the html and nothing else.
-  save_context: home_page_layout
-  save_layout: "index.html"
-home_page_content:
+    Using the provided page guide, generate a page layout for hugo.
+    Don't add any extra formatting like ```html```.
+    It should look like this while containing more information:
+      {{ define "main" }}
+      {{ .Content }}
+      {{ end }}
+page_content:
   load_context:
-    - home_page_guide
-    - home_page_layout
   prompt: |
-    Generate a home page index.md content for hugo.
-    This should include the markdown and front matter and nothing else.
-  save_content: "index.md"
+    Using the provided page guide, generate a page markdown content for hugo.
+    Ensure that it is formatted correctly for hugo and to work with the provided layout file.
+    Keep it simple, don't add extra variables inside of here, only define the ones listed in the guide.
+    The type should match the page name (i.e. home, about, etc...)
+    It should look like this while containing more information:
+      ---
+      title: "Home"
+      date: 2024-01-01
+      type: "home"
+      ---
+      {{ .Content }}
