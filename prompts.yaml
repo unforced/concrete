@@ -38,6 +38,9 @@ style_guide:
         * Two neutral tones with hex codes
         * Contextual use guidelines
 
+        From this style guide, we will be generating a main.css file, a theme.js file, and partials for the header and footer.
+        It's important that the information is concise, specific, and accurate, and that it can be used to generate the above files.
+
         Format output as a structured markdown file that can serve as a single source of truth for both messaging and visual design decisions.
 
   save_context: style_guide
@@ -59,6 +62,17 @@ structure_guide:
         description: "Information about the project and the team."
   save_context: structure_guide
   save_file: "guides/structure_guide.yaml"
+config:
+  load_context:
+    - website_intention
+    - overview
+  prompt: |
+    Generate a hugo.toml file with the following information:
+    title: "Website Title"
+    languageCode: "en-us"
+    baseURL: "https://example.org/"
+  save_context: config
+  save_file: "hugo.toml"
 themejs:
   load_context:
     - style_guide
@@ -69,6 +83,15 @@ themejs:
     3. Custom spacing values
     4. Responsive breakpoints
     5. Any custom animations or transitions
+
+    Make sure it starts with tailwind.config and not module.exports.
+
+    It should look like this while containing more information:
+    tailwind.config = {
+      content: ["./content/**/*.{html,js,md}", "./layouts/**/*.{html,js}"],
+      theme: {
+        extend: {
+          colors: {
     
     Ensure all color variables are properly named according to their functional use in the style guide.
   save_context: themejs
@@ -76,8 +99,10 @@ themejs:
 maincss:
   load_context:
     - style_guide
+    - themejs
   prompt: |
     Generate a main.css file with tailwind config for use in hugo.
+    It should incorporate the variables set in theme.js.
     This should include a css file and nothing else.
     Don't add any extra formatting like ```css```.
     It should look like this while containing more information:
@@ -92,11 +117,14 @@ header:
     - website_intention
     - style_guide
     - structure_guide
+    - themejs
+    - maincss
   prompt: |
     Using the provided style guide, structure guide, and main.css, generate a header.html partial for hugo.
     Don't add any extra formatting like ```html```.
+    Be careful with the background and text colors, they should match the style guide, be consistent, and not clash.
     It should look like this while containing more information:
-      <header class="bg-gray-800 text-white"></header>
+      <header class="bg-primary text-primary"></header>
       <nav class="container mx-auto px-4 py-6">
         <div class="flex justify-between items-center">
           <a href="/" class="text-xl font-bold">{{ .Site.Title }}</a>
@@ -110,9 +138,12 @@ footer:
     - website_intention
     - style_guide
     - structure_guide
+    - maincss
+    - themejs
   prompt: |
     Using the provided structure guide, generate a footer.html partial for hugo.
     Don't add any extra formatting like ```html```.
+    Be careful with the background and text colors, they should match the style guide, be consistent, and not clash.
     It should look like this while containing more information:
       <footer class="bg-gray-800 text-white"></footer>
   save_context: footer
@@ -130,6 +161,10 @@ page_guide:
     Format the output as a markdown file.
 page_layout:
   load_context:
+    - maincss
+    - themejs
+    - style_guide
+    - structure_guide
   prompt: |
     Using the provided page guide, generate a page layout for hugo.
     Don't add any extra formatting like ```html```.
@@ -143,11 +178,11 @@ page_content:
     Using the provided page guide, generate a page markdown content for hugo.
     Ensure that it is formatted correctly for hugo and to work with the provided layout file.
     Keep it simple, don't add extra variables inside of here, only define the ones listed in the guide.
-    The type should match the page name (i.e. home, about, etc...)
+    The type should match the page name (i.e. index, about, etc...)
     It should look like this while containing more information:
       ---
       title: "Home"
       date: 2024-01-01
-      type: "home"
+      type: "index"
       ---
       {{ .Content }}

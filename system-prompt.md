@@ -13,7 +13,7 @@ For all of this to work, proper contextualization and compartmentalization is ke
 And it's essential that guides are generated in a way that allows for maximum reuse of information and effective generation of files.
 The guide file should be very clear in what it needs to specify. For the style and structure guides as well as individual page guides.
 
-In terms of compartmentalization, we want to keep as much styling information as possible in the css file, so we can adjust styling in one place.
+In terms of compartmentalization, we want to keep as much styling information as possible in the css file, so we can adjust styling in one place. The colors should be saved in the main.css and theme.js tailwind config and the pages should consider this information as they generate their own templating.
 
 Currently in the project, we are avoiding partials as much as possible besides the header and footer.
 Keep things simple and keep the html files as lightweight as possible.

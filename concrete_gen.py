@@ -130,9 +130,13 @@ class ConcreteGenerator:
         print("\nHere's the structure guide:")
         print(self.context['structure_guide'])
 
+        # Generate and save config file
+        print("\nGenerating config file...")
+        await self.call_and_save_prompt("config")
+
         print("\nGenerating style files...")
-        await self.call_and_save_prompt("maincss")
         await self.call_and_save_prompt("themejs")
+        await self.call_and_save_prompt("maincss")
 
         print("\nGenerating navigation partials...")
         await self.call_and_save_prompt("header")
