@@ -30,7 +30,33 @@ Concrete takes a unique, compartmentalized approach to project generation:
 
 ## Getting Started
 
-[Coming soon]
+### Prerequisites
+
+- Python 3.8+
+- pip (Python package manager)
+- An Anthropic API key
+
+### Installation
+
+```bash
+git clone [repository-url]
+cd concrete
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+Create a `.env` file in the root directory:
+
+```bash
+ANTHROPIC_API_KEY=your_anthropic_api_key
+```
+
+Run the script
+
+```bash
+python concrete_gen.py -n wovenweb3 -f whatiswovenweb -w "I want to create a simple website for Woven Web, that helps people understand what our organization is and how to get involved. It only needs a home page, about page, and a participate page"
+```
 
 ## Contributing
 
