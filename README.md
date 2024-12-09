@@ -39,7 +39,7 @@ Concrete takes a unique, compartmentalized approach to project generation:
 ### Installation
 
 ```bash
-git clone [repository-url]
+git clone https://github.com/unforced/Concrete
 cd concrete
 python -m venv venv
 source venv/bin/activate
