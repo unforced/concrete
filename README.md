@@ -24,7 +24,7 @@ npx degit unforced/Concrete/templates/react-supabase my-project
 cd my-project
 
 # Link the system prompt to Cursor
-ln -s .concrete/.system-prompt .cursorrules
+ln -s .concrete/system-prompt.md .cursorrules
 
 # Open in Cursor
 cursor .
@@ -52,7 +52,7 @@ mkdir -p .concrete/ideation
 cp path/to/ideation.md .concrete/ideation/initial-ideation.md
 
 # Link the system prompt to Cursor
-ln -s .concrete/.system-prompt .cursorrules
+ln -s .concrete/system-prompt.md .cursorrules
 
 # Open in Cursor
 cursor .
@@ -86,10 +86,15 @@ Concrete provides several templates:
 - [Template Format](.concrete/concepts/template-format.md): How templates are structured
 - [Inheritance Mechanism](.concrete/concepts/inheritance-mechanism.md): How templates inherit from each other
 - [Learning Mechanism](.concrete/concepts/learning-mechanism.md): How the system learns and improves
+- [Customization Points](.concrete/concepts/customization-points.md): How templates can be customized
+- [Generation Mechanism](.concrete/concepts/generation-mechanism.md): How code is generated from templates
+- [Project Structure](.concrete/concepts/project-structure.md): Recommended project structure
+- [CLI Interface](.concrete/concepts/cli-interface.md): Command-line interface for Concrete
+- [AI Integration](.concrete/concepts/ai-integration.md): How AI is integrated into the system
 
 ## Implementation Guides
 
-- [Creating a New Project](.concrete/implementations/creating-new-project.md): How to create a new project from a template
+- [Project Setup](.concrete/implementations/00-project-setup.md): How to set up the Concrete project
 
 ## Contributing
 

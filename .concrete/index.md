@@ -1,72 +1,68 @@
-# Concrete System
+# Concrete Project
 
-Welcome to the Concrete system, an AI-powered templating and project generation system designed to work within AI editors like Cursor.
-
-## What is Concrete?
-
-Concrete transforms ideation documents into fully-realized project structures with implementation guides, concepts, templates, and other resources that help developers build applications efficiently.
-
-The system follows a hierarchical approach to templates, allowing for specialization and inheritance, while continuously learning and improving based on user feedback and new implementations.
+Welcome to the Concrete project documentation. This guide will help you navigate the project structure and understand how to use the various resources available.
 
 ## Directory Structure
 
+The `.concrete` directory contains all the documentation and resources for the Concrete project:
+
 ```
-.concrete/                  # Core Concrete system files
-├── ideation/               # Ideation documents
-│   ├── initial-ideation.md # Initial user ideas
-│   └── project-brief.md    # Generated project brief
-├── templates/              # Template definitions
-├── concepts/               # Conceptual guides
-├── implementations/        # Implementation guides
-├── project.md              # Project overview
+.concrete/
 ├── index.md                # This file
-└── .system-prompt          # System prompt for AI assistants
+├── project.md              # Project overview and requirements
+├── tracking.md             # Project tracking and status
+├── system-prompt.md        # System prompt for AI assistants
+├── implementations/        # Implementation guides for milestones
+├── concepts/               # Concept guides explaining core concepts
+├── templates/              # Templates and examples
+└── troubleshooting/        # Troubleshooting guides
 ```
 
-## Getting Started
+## Core Documentation
 
-1. **Ideation**: Start by creating an ideation document in the `ideation` directory
-2. **Project Brief**: Use the system to generate a project brief from your ideation
-3. **Template Selection**: Choose a template that fits your project needs
-4. **Customization**: Customize the template to match your specific requirements
-5. **Implementation**: Follow the generated guides to implement your application
+- [Project Overview](./project.md) - Overview of the Concrete project and its requirements
+- [Project Tracking](./tracking.md) - Current status and progress of the project
+- [System Prompt](./system-prompt.md) - System prompt for AI assistants
 
-## Available Templates
+## Milestone Implementation Guides
 
-Templates are organized in a hierarchy:
+These guides provide step-by-step instructions for implementing each milestone of the project:
 
-1. **Base Templates**: Foundational templates for any application
-2. **Specialized Templates**: Templates for specific tech stacks
-3. **App Implementations**: Complete application examples
+| # | Milestone | Status | Guide |
+|---|-----------|--------|-------|
+| 0 | Project Setup | Completed | [Project Setup Guide](./implementations/00-project-setup.md) |
+| 1 | Core System | Planned | Core System Guide (Coming Soon) |
+| 2 | Base Template | Planned | Base Template Guide (Coming Soon) |
+| 3 | Template Inheritance | Planned | Template Inheritance Guide (Coming Soon) |
+| 4 | Specialized Templates | Planned | Specialized Templates Guide (Coming Soon) |
+| 5 | Learning Mechanism | Planned | Learning Mechanism Guide (Coming Soon) |
 
-### Base Templates
+## Concept Guides
 
-- [Base Template](../templates/base/README.md): A minimal template for any application
+These guides explain the core concepts of the Concrete templating system:
 
-### Specialized Templates
+- [Template Format](./concepts/template-format.md) - Explains the structure and format of templates
+- [Inheritance Mechanism](./concepts/inheritance-mechanism.md) - Explains how templates can inherit from each other
+- [Learning Mechanism](./concepts/learning-mechanism.md) - Explains how the system learns from feedback
+- [Customization Points](./concepts/customization-points.md) - Explains how templates can be customized
+- [Generation Mechanism](./concepts/generation-mechanism.md) - Explains how code is generated from templates
+- [Project Structure](./concepts/project-structure.md) - Explains the recommended project structure
+- [CLI Interface](./concepts/cli-interface.md) - Explains the command-line interface
+- [AI Integration](./concepts/ai-integration.md) - Explains how AI is integrated into the system
 
-- [Full Stack Template](../templates/full-stack/README.md): Template for full-stack applications
-- [React/Supabase Template](../templates/react-supabase/README.md): Template for React applications with Supabase backend
+## Templates
 
-### App Implementations
+- [Implementation Guide Template](./templates/implementation-guide-template.md) - Template for creating implementation guides
 
-- [Bump](../apps/Bump/index.md): A social app for spontaneous in-person connections
+## Troubleshooting Guides
 
-## Core Concepts
+- Coming Soon
 
-- [Template Format](./concepts/template-format.md): How templates are structured
-- [Inheritance Mechanism](./concepts/inheritance-mechanism.md): How templates inherit from each other
-- [Customization Points](./concepts/customization-points.md): How to customize templates
-- [Learning Mechanism](./concepts/learning-mechanism.md): How the system learns and improves
+## How to Use These Guides
 
-## Implementation Guides
-
-- [Creating a New Project](./implementations/creating-new-project.md): How to create a new project from a template
-- [Customizing Templates](./implementations/customizing-templates.md): How to customize templates
-- [Contributing Templates](./implementations/contributing-templates.md): How to contribute new templates
-
-## Next Steps
-
-- Review the [project brief](./ideation/project-brief.md) to understand the system design
-- Explore the [templates](../templates) directory to see available templates
-- Check out the [Bump app](../apps/Bump/index.md) as an example implementation 
+1. Start with the [Project Overview](./project.md) to understand the goals and requirements of the project.
+2. Check the [Project Tracking](./tracking.md) to see the current status and progress.
+3. Read the relevant concept guides to understand the core concepts of the system.
+4. Follow the implementation guides in order to implement the project milestones.
+5. Use the templates as a starting point for creating new documentation.
+6. Refer to the troubleshooting guides if you encounter any issues. 
