@@ -1,0 +1,64 @@
+{{ define "main" }}
+<div class="section bg-neutral-light">
+  <div class="container">
+    <h1>{{ .Title }}</h1>
+    <p class="text-lg mb-lg">{{ .Description }}</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="md:grid md:grid-cols-2 gap-lg">
+      <div>
+        {{ .Content }}
+      </div>
+      <div class="mt-lg md:mt-0">
+        <ul class="space-y-sm">
+          {{ range .Params.key_points }}
+            <li class="flex items-start">
+              <span class="text-brand-primary mr-sm">•</span>
+              <span>{{ . }}</span>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section bg-white">
+  <div class="container">
+    <h2 class="text-center mb-xl">Our Philosophy</h2>
+    <div class="grid md:grid-cols-3 gap-lg">
+      {{ range .Params.philosophy_cards }}
+        <div class="card hover-lift">
+          <h3 class="mb-sm">{{ .title }}</h3>
+          <p>{{ .description }}</p>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <h2 class="text-center mb-xl">Current Initiatives</h2>
+    <div class="card">
+      <h3 class="text-gradient">{{ .Params.featured_initiative.title }}</h3>
+      <p class="mb-md">{{ .Params.featured_initiative.description }}</p>
+      <a href="{{ .Params.featured_initiative.link }}" class="link">Learn more →</a>
+    </div>
+  </div>
+</div>
+
+<div class="section bg-brand-primary text-neutral-light">
+  <div class="container text-center">
+    <h2 class="mb-md">Join Our Mission</h2>
+    <p class="mb-lg">{{ .Params.cta_text }}</p>
+    <div class="space-x-sm">
+      <a href="/participate" class="btn btn-accent">Get Involved</a>
+      <a href="/contact" class="btn btn-secondary">Contact Us</a>
+    </div>
+  </div>
+</div>
+{{ end }}

@@ -1,0 +1,10 @@
+pages:
+  index:
+    title: "Woven Web"
+    description: "Creating connections and fostering community resilience through local action and global awareness."
+  about:
+    title: "About Woven Web"
+    description: "Learn about our mission, philosophy, and initiatives for building integrated community solutions."
+  participate:
+    title: "Get Involved"
+    description: "Discover ways to participate, connect with our community, and contribute to local resilience."
