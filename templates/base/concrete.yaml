@@ -1,0 +1,108 @@
+name: "base"
+version: "1.0.0"
+description: "A foundational template for any application built with the Concrete templating system"
+author: "Unforced"
+license: "MIT"
+
+customization_points:
+  - name: "project_name"
+    type: "string"
+    default: "my-project"
+    description: "Name of the project"
+    
+  - name: "description"
+    type: "string"
+    default: "A project created with the Concrete templating system"
+    description: "Brief description of the project"
+    
+  - name: "author"
+    type: "string"
+    default: "Your Name"
+    description: "Author of the project"
+    
+  - name: "license"
+    type: "string"
+    options: ["MIT", "Apache-2.0", "GPL-3.0", "BSD-3-Clause", "Unlicense"]
+    default: "MIT"
+    description: "License for the project"
+    
+  - name: "testing_framework"
+    type: "string"
+    options: ["jest", "mocha", "vitest", "none"]
+    default: "jest"
+    description: "Testing framework to use"
+    
+  - name: "logging_level"
+    type: "string"
+    options: ["debug", "info", "warn", "error"]
+    default: "info"
+    description: "Default logging level"
+
+dependencies:
+  - name: "typescript"
+    version: "^5.0.0"
+    dev: true
+    
+  - name: "eslint"
+    version: "^8.0.0"
+    dev: true
+    
+  - name: "prettier"
+    version: "^3.0.0"
+    dev: true
+
+variables:
+  - name: "year"
+    value: "{{current_year}}"
+    description: "Current year for license and copyright notices"
+    
+  - name: "node_version"
+    value: "18.x"
+    description: "Node.js version for the project"
+
+files:
+  - source: "template/src/utils/logger.js"
+    target: "src/utils/logger.js"
+    condition: "true"
+    
+  - source: "template/src/utils/errors.js"
+    target: "src/utils/errors.js"
+    condition: "true"
+    
+  - source: "template/src/config/index.js"
+    target: "src/config/index.js"
+    condition: "true"
+    
+  - source: "template/LICENSE-{{license}}"
+    target: "LICENSE"
+    condition: "true"
+    
+  - source: "template/README.md"
+    target: "README.md"
+    condition: "true"
+    
+  - source: "template/.gitignore"
+    target: ".gitignore"
+    condition: "true"
+    
+  - source: "template/tests/setup.js"
+    target: "tests/setup.js"
+    condition: "testing_framework !== 'none'"
+    
+  - source: "template/tests/{{testing_framework}}.config.js"
+    target: "{{testing_framework}}.config.js"
+    condition: "testing_framework !== 'none'"
+
+hooks:
+  post_generation:
+    - command: "npm install"
+      condition: "true"
+      description: "Install dependencies"
+      
+    - command: "git init"
+      condition: "true"
+      description: "Initialize git repository"
+      
+    - command: "npm run format"
+      condition: "true"
+      description: "Format code" 
