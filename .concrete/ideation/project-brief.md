@@ -2,147 +2,200 @@
 
 ## Project Overview
 
-Concrete is an AI-powered templating and project generation system designed to work within AI editors like Cursor. It transforms ideation documents into fully-realized project structures with implementation guides, concepts, templates, and other resources that help developers build applications efficiently.
+**Project Name**: Concrete  
+**Date**: June 17, 2024  
+**Author**: Unforced, Claude 3.7 Sonnet
 
-The system follows a hierarchical approach to templates, allowing for specialization and inheritance, while continuously learning and improving based on user feedback and new implementations.
+## Vision
 
-## Core Concepts
+Concrete is an AI-powered system that helps create consistent, well-structured projects through conversational AI development. The name "Concrete" comes from "Converse & Create" - emphasizing the conversational approach to project creation. Concrete generates `.concrete` directories that serve as intelligent guides for AI assistants like Cursor, providing context and structure for building applications and other digital artifacts.
 
-### Templating Hierarchy
+## Primary Goals
 
-Concrete uses a hierarchical template system:
+1. Create a system that transforms ideation conversations into structured project guides
+2. Enable quick transition from idea to implementation through AI-assisted development
+3. Provide clear specifications for project structure, components, styles, and data models
+4. Establish a framework that AI assistants can easily understand and work with
+5. Support customization and evolution of project templates over time
 
-1. **Base Templates**: Foundational templates that provide the most generic structure and guidance
-2. **Specialized Templates**: Templates that inherit from base templates but are specialized for specific tech stacks (e.g., React/Supabase)
-3. **App Implementations**: Concrete implementations of applications built using the templates (e.g., Bump)
+## Immediate Focus
 
-This hierarchy allows for:
-- Knowledge sharing between templates
-- Specialization for specific use cases
-- Continuous improvement as insights from implementations feed back into templates
+Our immediate goal is to create the `.concrete` directory for Concrete itself, along with a simple directory structure for this repository. This `.concrete` directory will serve as both:
 
-### Workflow
+1. A guide for developing Concrete (eating our own dog food)
+2. A template for how other `.concrete` directories should be structured
 
-The Concrete workflow consists of:
+## Core Components
 
-1. **Ideation**: User creates an initial ideation document describing their project
-2. **Project Brief**: System generates a structured project brief with specifications and questions
-3. **Refinement**: User interacts with the system to refine the brief
-4. **Generation**: System generates the complete project structure with guides, concepts, and templates
-5. **Implementation**: User follows the guides to implement the application
-6. **Feedback**: Insights from implementation feed back into the template system
+The `.concrete` directory for Concrete should include:
+
+1. **Project Documentation**
+   - `project.md`: Comprehensive project overview and requirements
+   - `tracking.md`: Project progress, milestones, and status
+   - `index.md`: Navigation guide to all resources
+
+2. **Implementation Guides**
+   - Milestone-based guides for implementing Concrete
+   - Each guide should link to relevant concepts, templates, and troubleshooting resources
+
+3. **Concept Guides**
+   - Explanations of core concepts in Concrete
+   - Examples: template format, inheritance mechanism, customization points
+
+4. **Templates**
+   - Reusable patterns for creating resources within Concrete
+   - Examples: implementation guide template, concept guide template
+
+5. **Troubleshooting Guides**
+   - Solutions for common issues when using Concrete
+   - Best practices for resolving specific problems
+
+6. **System Prompt**
+   - `system-prompt.md`: Instructions for AI assistants on how to work with Concrete
+   - Should be symlinked to `.cursorrules` in the root directory
+
+## User Flow
+
+The intended user flow for Concrete is:
+
+1. User clones the Concrete repository
+2. User starts a conversation with Cursor about what they want to create
+3. Concrete (via Cursor) helps generate the appropriate folder structure in `apps/`
+4. The generated app folder can be copied to a new project's `.concrete` directory
+5. The `system-prompt.md` is symlinked to `.cursorrules` in the new project
+6. The user can then use Cursor to build the project with full context
+
+## Key Features
+
+### 1. Conversational Project Creation
+
+Concrete should be able to:
+- Understand project requirements through natural conversation
+- Ask clarifying questions to refine understanding
+- Generate structured project briefs from ideation conversations
+- Refine project briefs through further dialogue
+
+### 2. Intelligent Resource Generation
+
+Concrete should generate:
+- Implementation guides tailored to the project
+- Concept guides for important project patterns
+- Templates for consistent code and documentation
+- Troubleshooting guides for common issues
+
+### 3. Interconnected Resources
+
+Resources should be:
+- Cross-linked for easy navigation
+- Contextually relevant to each other
+- Organized in a way that AI assistants can easily understand
+- Structured to provide maximum context when needed
+
+### 4. Customization and Flexibility
+
+The system should:
+- Support various project types and structures
+- Allow customization of the `.concrete` directory structure
+- Provide sensible defaults while enabling flexibility
+- Adapt to different development workflows
+
+### 5. Learning and Evolution
+
+Concrete should:
+- Recognize when it misses something important
+- Invite edits to improve future performance
+- Learn from successful project implementations
+- Evolve templates based on best practices
+
+## Technical Requirements
 
 ### Directory Structure
 
+The initial directory structure for Concrete should include:
+
 ```
-Concrete/
-├── .concrete/                  # Core Concrete system files
-│   ├── ideation/               # Ideation documents
-│   │   ├── initial-ideation.md # Initial user ideas
-│   │   └── project-brief.md    # Generated project brief
-│   ├── templates/              # Template definitions
-│   ├── concepts/               # Conceptual guides
-│   ├── implementations/        # Implementation guides
+concrete/
+├── .concrete/
+│   ├── index.md                # Navigation guide
 │   ├── project.md              # Project overview
-│   ├── index.md                # Entry point and navigation
-│   └── .system-prompt          # System prompt for AI assistants
-│
-├── apps/                       # Concrete implementations of specific apps
-│   └── Bump/                   # Bump app implementation
-│       ├── implementations/    # Implementation guides for Bump
-│       ├── templates/          # Templates used in Bump
-│       ├── concepts/           # Conceptual guides for Bump
-│       ├── troubleshooting/    # Troubleshooting guides for Bump
-│       ├── index.md            # Entry point for Bump
-│       ├── project.md          # Project overview for Bump
-│       └── tracking.md         # Project tracking for Bump
-│
-└── templates/                  # Generalized templates derived from apps
-    ├── base/                   # Base template for any application
-    ├── full-stack/             # Template for full-stack applications
-    └── react-supabase/         # Template specialized for React/Supabase apps
+│   ├── tracking.md             # Project progress
+│   ├── system-prompt.md        # AI instructions (symlinked to .cursorrules)
+│   ├── implementations/        # Implementation guides
+│   ├── concepts/               # Concept guides
+│   ├── templates/              # Templates
+│   └── troubleshooting/        # Troubleshooting guides
+├── apps/                       # Generated app templates
+│   └── bump/                   # Example app template
+├── templates/                  # Base templates for different project types
+│   ├── base/                   # Base template
+│   └── specialized/            # Specialized templates
+└── .cursorrules                # Symlink to .concrete/system-prompt.md
 ```
 
-## System Components
+### Content Requirements
 
-### 1. Ideation Processing
+1. **Implementation Guides**
+   - Should follow a consistent format
+   - Include clear objectives, prerequisites, and steps
+   - Link to relevant concepts, templates, and troubleshooting guides
+   - Provide validation criteria for completion
 
-- **Input**: Initial ideation document (markdown)
-- **Process**: AI analyzes the document to understand project requirements
-- **Output**: Structured project brief with specifications and questions
+2. **Concept Guides**
+   - Should explain core concepts clearly
+   - Include examples and best practices
+   - Reference related concepts and implementation guides
+   - Provide context for why the concept is important
 
-### 2. Project Brief Refinement
+3. **Templates**
+   - Should be easily adaptable
+   - Include placeholders for customization
+   - Provide clear instructions for use
+   - Follow best practices for the relevant domain
 
-- **Input**: Project brief and user feedback
-- **Process**: Iterative refinement through dialogue
-- **Output**: Finalized project brief
-
-### 3. Template Selection and Customization
-
-- **Input**: Finalized project brief
-- **Process**: Selection of appropriate template and customization
-- **Output**: Customized template for the specific project
-
-### 4. Guide Generation
-
-- **Input**: Customized template and project brief
-- **Process**: Generation of implementation guides, concepts, and other resources
-- **Output**: Complete project structure
-
-### 5. System Prompt Generation
-
-- **Input**: Project structure
-- **Process**: Creation of system prompt for AI assistants
-- **Output**: .system-prompt file (symlinked to .cursorrules)
-
-## Implementation Plan
-
-### Phase 1: Core System Setup
-
-1. Create the basic directory structure for the Concrete system
-2. Define the template hierarchy and relationships
-3. Create the system prompt generation mechanism
-4. Implement the project brief generation from ideation documents
-
-### Phase 2: Template Extraction
-
-1. Analyze the Bump app implementation
-2. Extract patterns and structures into a React/Supabase template
-3. Further generalize into a full-stack template
-4. Create a base template for any application
-
-### Phase 3: Integration and Tooling
-
-1. Create tools for template selection and customization
-2. Implement mechanisms for template inheritance
-3. Develop utilities for easy template installation (e.g., degit integration)
-4. Create documentation for using the system
-
-### Phase 4: Learning and Improvement
-
-1. Implement feedback mechanisms for templates
-2. Create systems for propagating improvements up and down the hierarchy
-3. Develop metrics for template effectiveness
-4. Build a community around template sharing and improvement
+4. **System Prompt**
+   - Should provide clear instructions for AI assistants
+   - Explain the purpose and structure of Concrete
+   - Guide the AI in helping users create projects
+   - Include examples of effective interactions
 
 ## Open Questions
 
-1. **Template Format**: What is the most effective format for templates that balances flexibility with ease of use?
-2. **Inheritance Mechanism**: How should template inheritance be implemented to allow for specialization while maintaining consistency?
-3. **Versioning**: How should templates be versioned to track changes and improvements?
-4. **Customization Points**: What are the key points where users should be able to customize templates?
-5. **Integration Method**: What's the best way for users to integrate Concrete into their workflow (e.g., CLI, web interface, editor plugin)?
-6. **Learning Mechanism**: How should the system capture and incorporate learnings from implementations?
-7. **Community Aspects**: How can we foster a community around template sharing and improvement?
-8. **Evaluation Metrics**: How do we measure the effectiveness of templates in helping users build applications?
+1. **Template Inheritance**: How should we implement the inheritance mechanism between templates? Should it be file-based, metadata-based, or something else?
+
+2. **Customization Points**: What's the best syntax for defining customization points in templates? Should we use a special markup or leverage existing formats like YAML front matter?
+
+3. **Learning Mechanism**: How should Concrete track and incorporate feedback? Should we use a dedicated feedback file, annotations in existing files, or something else?
+
+4. **AI Integration**: How tightly should Concrete integrate with specific AI assistants like Cursor? Should we provide adapter layers for different assistants?
+
+5. **Versioning**: How should we handle versioning of templates and `.concrete` directories? Should we use semantic versioning, git tags, or something else?
+
+## Success Criteria
+
+The initial implementation of Concrete will be successful if:
+
+1. We create a complete `.concrete` directory for Concrete itself
+2. The directory structure is clear, navigable, and well-documented
+3. The system prompt effectively guides AI assistants in working with Concrete
+4. We can use Concrete to help develop itself (meta-development)
+5. The structure is flexible enough to support various project types in the future
 
 ## Next Steps
 
-1. Review and refine this project brief through dialogue
-2. Answer the open questions to clarify the system design
-3. Begin implementing the core system components
-4. Extract the React/Supabase template from the Bump app
-5. Create the base template
-6. Implement the template hierarchy and inheritance mechanism
-7. Develop tools for template selection and customization
-8. Create documentation for using the system 
+1. Create the basic directory structure for Concrete
+2. Develop the core documentation (project.md, tracking.md, index.md)
+3. Create the system prompt for AI assistants
+4. Develop implementation guides for key milestones
+5. Create concept guides for core concepts
+6. Develop templates for creating resources
+7. Create troubleshooting guides for common issues
+
+## Timeline
+
+This is a preliminary timeline for developing the `.concrete` directory for Concrete:
+
+1. **Week 1**: Create basic directory structure and core documentation
+2. **Week 2**: Develop system prompt and initial implementation guides
+3. **Week 3**: Create concept guides and templates
+4. **Week 4**: Develop troubleshooting guides and refine all resources
+5. **Week 5**: Test the system by using it to develop itself further 

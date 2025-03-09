@@ -12,6 +12,7 @@ The `.concrete` directory contains all the documentation and resources for the C
 ├── project.md              # Project overview and requirements
 ├── tracking.md             # Project tracking and status
 ├── system-prompt.md        # System prompt for AI assistants
+├── workflows/              # Workflow guides for using Concrete
 ├── implementations/        # Implementation guides for milestones
 ├── concepts/               # Concept guides explaining core concepts
 ├── templates/              # Templates and examples
@@ -24,6 +25,15 @@ The `.concrete` directory contains all the documentation and resources for the C
 - [Project Tracking](./tracking.md) - Current status and progress of the project
 - [System Prompt](./system-prompt.md) - System prompt for AI assistants
 
+## Workflow Guides
+
+These guides explain how to use Concrete for different scenarios:
+
+- [From Ideation to Template](./workflows/ideation-to-template.md) - How to create a template from an ideation document
+- [Template Specialization](./workflows/template-specialization.md) - How to specialize an existing template
+- [Pattern Extraction](./workflows/pattern-extraction.md) - How to extract patterns from existing applications
+- [From Template to Application](./workflows/template-to-app.md) - How to use a template to build an application
+
 ## Milestone Implementation Guides
 
 These guides provide step-by-step instructions for implementing each milestone of the project:
@@ -32,37 +42,47 @@ These guides provide step-by-step instructions for implementing each milestone o
 |---|-----------|--------|-------|
 | 0 | Project Setup | Completed | [Project Setup Guide](./implementations/00-project-setup.md) |
 | 1 | Core System | Planned | Core System Guide (Coming Soon) |
-| 2 | Base Template | Planned | Base Template Guide (Coming Soon) |
-| 3 | Template Inheritance | Planned | Template Inheritance Guide (Coming Soon) |
-| 4 | Specialized Templates | Planned | Specialized Templates Guide (Coming Soon) |
-| 5 | Learning Mechanism | Planned | Learning Mechanism Guide (Coming Soon) |
+| 2 | Template Generation | Planned | Template Generation Guide (Coming Soon) |
+| 3 | Inheritance Mechanism | Planned | Inheritance Mechanism Guide (Coming Soon) |
+| 4 | Learning System | Planned | Learning System Guide (Coming Soon) |
 
 ## Concept Guides
 
-These guides explain the core concepts of the Concrete templating system:
+These guides explain the core concepts of the Concrete system:
 
 - [Template Format](./concepts/template-format.md) - Explains the structure and format of templates
-- [Inheritance Mechanism](./concepts/inheritance-mechanism.md) - Explains how templates can inherit from each other
-- [Learning Mechanism](./concepts/learning-mechanism.md) - Explains how the system learns from feedback
-- [Customization Points](./concepts/customization-points.md) - Explains how templates can be customized
-- [Generation Mechanism](./concepts/generation-mechanism.md) - Explains how code is generated from templates
-- [Project Structure](./concepts/project-structure.md) - Explains the recommended project structure
-- [CLI Interface](./concepts/cli-interface.md) - Explains the command-line interface
-- [AI Integration](./concepts/ai-integration.md) - Explains how AI is integrated into the system
+- Inheritance Mechanism (Coming Soon) - Explains how templates can inherit from each other
+- Learning Mechanism (Coming Soon) - Explains how the system learns from feedback
+- Customization Points (Coming Soon) - Explains how templates can be customized
+- Generation Mechanism (Coming Soon) - Explains how code is generated from templates
+- Project Structure (Coming Soon) - Explains the recommended project structure
+- AI Integration (Coming Soon) - Explains how AI is integrated into the system
 
 ## Templates
 
 - [Implementation Guide Template](./templates/implementation-guide-template.md) - Template for creating implementation guides
+- [Concept Guide Template](./templates/concept-guide-template.md) - Template for creating concept guides
+- [Troubleshooting Guide Template](./templates/troubleshooting-guide-template.md) - Template for creating troubleshooting guides
 
 ## Troubleshooting Guides
 
-- Coming Soon
+- Common Issues (Coming Soon) - Solutions for common issues when using Concrete
 
 ## How to Use These Guides
 
 1. Start with the [Project Overview](./project.md) to understand the goals and requirements of the project.
 2. Check the [Project Tracking](./tracking.md) to see the current status and progress.
-3. Read the relevant concept guides to understand the core concepts of the system.
-4. Follow the implementation guides in order to implement the project milestones.
-5. Use the templates as a starting point for creating new documentation.
-6. Refer to the troubleshooting guides if you encounter any issues. 
+3. Read the [workflow guides](#workflow-guides) to understand how to use Concrete for different scenarios.
+4. Explore the [concept guides](#concept-guides) to understand the core concepts of the system.
+5. Follow the [implementation guides](#milestone-implementation-guides) in order to implement the project milestones.
+6. Use the [templates](#templates) as a starting point for creating new documentation.
+7. Refer to the [troubleshooting guides](#troubleshooting-guides) if you encounter any issues.
+
+## Contributing
+
+If you'd like to contribute to the Concrete project, please follow these guidelines:
+
+1. Read the existing documentation to understand the project's goals and structure.
+2. Check the [Project Tracking](./tracking.md) to see what needs to be done.
+3. Follow the templates when creating new documentation.
+4. Submit your changes for review. 

@@ -7,8 +7,7 @@ This guide provides instructions for setting up the Concrete project and underst
 ## Prerequisites
 
 - Git installed on your system
-- Node.js (v16 or later) installed on your system
-- Basic understanding of JavaScript/TypeScript
+- Basic understanding of markdown
 - Familiarity with AI assistants like Cursor
 
 ## Objectives
@@ -26,13 +25,7 @@ Before diving into the implementation, it's important to understand these key co
 - **Template**: A pre-defined project structure with best practices built-in
 - **Customization Point**: A configurable aspect of a template
 - **Inheritance**: The ability for templates to inherit from parent templates
-- **Generation Instruction**: Natural language instructions for AI assistants
-
-For more detailed explanations, refer to the concept guides:
-- [Template Format](../concepts/template-format.md)
-- [Inheritance Mechanism](../concepts/inheritance-mechanism.md)
-- [Learning Mechanism](../concepts/learning-mechanism.md)
-- [Customization Points](../concepts/customization-points.md)
+- **Implementation Guide**: Step-by-step guide for implementing features
 
 ## Implementation Steps
 
@@ -51,7 +44,7 @@ git init
 ```markdown
 # Concrete
 
-Concrete is an AI-powered templating and project generation system designed to work within AI editors like Cursor. It transforms ideation documents into fully-realized project structures with implementation guides, concepts, templates, and other resources that help developers build applications efficiently.
+Concrete is an AI-powered system that helps create consistent, well-structured projects through conversational AI development. The name "Concrete" comes from "Converse & Create" - emphasizing the conversational approach to project creation.
 
 ## Getting Started
 
@@ -80,18 +73,9 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 ```
 
-4. Initialize npm:
-
-```bash
-npm init -y
-```
-
-**Expected Outcome**: A basic project repository with README.md, .gitignore, and package.json files.
+**Expected Outcome**: A basic project repository with README.md and .gitignore files.
 
 ### Step 2: Set Up Project Structure
 
@@ -99,229 +83,140 @@ npm init -y
 
 ```bash
 mkdir -p .concrete/implementations .concrete/concepts .concrete/templates .concrete/troubleshooting
-mkdir -p templates/base templates/full-stack templates/react-supabase
+mkdir -p apps templates/base templates/specialized
 ```
 
-2. Create the index.md file in the .concrete directory:
+2. Create the core documentation files:
 
-```markdown
-# Concrete Project Guides
-
-This directory contains guides, templates, and documentation for the Concrete templating system. Use these resources to understand the project structure, implementation details, and best practices.
-
-## Directory Structure
-
-[Directory structure description]
-
-## Core Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Project Overview](./project.md) | Project requirements and specifications |
-| [Project Tracking](./tracking.md) | Current progress, action plan, and completed steps |
-
-## Milestone Implementation Guides
-
-[Milestone implementation guides table]
-
-## Concepts
-
-[Concepts table]
-
-## Templates
-
-[Templates table]
-
-## Troubleshooting Guides
-
-[Troubleshooting guides table]
-
-## How to Use These Guides
-
-[Instructions for using the guides]
-
-## Contributing to Guides
-
-[Instructions for contributing to the guides]
-
-## Next Steps
-
-[Next steps]
-```
-
-3. Create the project.md file in the .concrete directory:
-
-```markdown
-# Concrete Project Overview
-
-## Project Vision
-
-Concrete is an AI-powered templating and project generation system designed to work within AI editors like Cursor. It transforms ideation documents into fully-realized project structures with implementation guides, concepts, templates, and other resources that help developers build applications efficiently.
-
-[Additional project overview content]
-```
-
-4. Create the tracking.md file in the .concrete directory:
-
-```markdown
-# Concrete Project Tracking
-
-## Project Status
-
-**Current Phase**: Phase 1 - Core System Setup
-**Current Milestone**: 0 - Project Setup
-**Last Updated**: [Current date]
-
-[Additional tracking content]
+```bash
+touch .concrete/index.md .concrete/project.md .concrete/tracking.md .concrete/system-prompt.md
 ```
 
 **Expected Outcome**: A structured project with the necessary directories and documentation files.
 
-### Step 3: Create Template Structure
+### Step 3: Create Core Documentation
 
-1. Create the base template structure:
-
-```bash
-mkdir -p templates/base/docs templates/base/generation templates/base/template
-```
-
-2. Create a README.md file for the base template:
+1. Create the index.md file to serve as a navigation guide:
 
 ```markdown
-# Base Template
+# Concrete Project
 
-This is the base template for the Concrete templating system. It provides a foundation for other templates to build upon.
+Welcome to the Concrete project documentation. This guide will help you navigate the project structure and understand how to use the various resources available.
 
-## Features
-
-- Common utilities and helpers
-- Error handling
-- Logging
-- Configuration management
-- Testing setup
-
-## Usage
-
-[Usage instructions]
-
-## Customization
-
-[Customization instructions]
-
-## Documentation
-
-[Documentation links]
+[Additional content as needed]
 ```
 
-3. Create placeholder files for the base template:
-
-```bash
-touch templates/base/docs/README.md
-touch templates/base/generation/README.md
-touch templates/base/template/README.md
-```
-
-**Expected Outcome**: A basic structure for the base template with placeholder files.
-
-### Step 4: Set Up Concept Guides
-
-1. Create placeholder files for the concept guides:
-
-```bash
-touch .concrete/concepts/template-format.md
-touch .concrete/concepts/inheritance-mechanism.md
-touch .concrete/concepts/learning-mechanism.md
-touch .concrete/concepts/customization-points.md
-```
-
-2. Create a basic structure for the template format guide:
+2. Create the project.md file to provide an overview of the project:
 
 ```markdown
-# Template Format
+# Concrete Project Overview
 
-This guide explains the format used for templates in the Concrete system.
+**Date**: [Current date]  
+**Authors**: [Author names]
 
-## Overview
+## Project Vision
 
-[Overview of the template format]
+Concrete is an AI-powered system that helps create consistent, well-structured projects through conversational AI development.
 
-## Directory Structure
-
-[Directory structure description]
-
-## Metadata
-
-[Metadata description]
-
-## Template Files
-
-[Template files description]
-
-## Generation Instructions
-
-[Generation instructions description]
-
-## Examples
-
-[Examples]
+[Additional content as needed]
 ```
 
-**Expected Outcome**: Placeholder files for the concept guides with a basic structure for the template format guide.
+3. Create the tracking.md file to track project progress:
 
-### Step 5: Set Up Implementation Guides
+```markdown
+# Project Tracking
 
-1. Create placeholder files for the implementation guides:
+## Project Status
+
+**Current Status**: In Development  
+**Last Updated**: [Current date]  
+**Project Phase**: Initial Setup
+
+[Additional content as needed]
+```
+
+4. Create the system-prompt.md file to provide instructions for AI assistants:
+
+```markdown
+# Concrete System Prompt
+
+You are an AI assistant helping with the Concrete project, a system for generating `.concrete` directories that serve as intelligent guides for AI-assisted development.
+
+[Additional content as needed]
+```
+
+**Expected Outcome**: Core documentation files that provide an overview of the project, track progress, and guide AI assistants.
+
+### Step 4: Create Template Files
+
+1. Create template files for implementation guides, concept guides, and troubleshooting guides:
 
 ```bash
-touch .concrete/implementations/01-core-system.md
-touch .concrete/implementations/02-base-template.md
-touch .concrete/implementations/03-template-inheritance.md
-touch .concrete/implementations/04-react-supabase.md
-touch .concrete/implementations/05-template-selection.md
-touch .concrete/implementations/06-learning-mechanism.md
-touch .concrete/implementations/07-deployment.md
+touch .concrete/templates/implementation-guide-template.md
+touch .concrete/templates/concept-guide-template.md
+touch .concrete/templates/troubleshooting-guide-template.md
 ```
 
-2. Create a template for implementation guides:
+2. Fill in the templates with appropriate content (see the templates directory for examples).
+
+**Expected Outcome**: Template files that can be used to create consistent documentation.
+
+### Step 5: Set Up System Prompt Symlink
+
+1. Create a symlink from .concrete/system-prompt.md to .cursorrules:
 
 ```bash
-cp .concrete/templates/implementation-guide-template.md .concrete/implementations/01-core-system.md
+# On Unix-like systems
+ln -s .concrete/system-prompt.md .cursorrules
+
+# On Windows (requires administrator privileges)
+# mklink .cursorrules .concrete\system-prompt.md
 ```
 
-**Expected Outcome**: Placeholder files for the implementation guides with a template for the core system guide.
+**Expected Outcome**: A symlink that allows AI assistants to access the system prompt.
 
 ## Testing
 
-At this stage, there's no code to test, but you should verify that:
+To test the project setup, follow these steps:
 
-1. All directories and files have been created correctly
-2. The documentation files contain the expected content
-3. The project structure matches the design
+1. Verify that all directories and files have been created:
+
+```bash
+find . -type d -not -path "*/\.*" | sort
+find .concrete -type f | sort
+```
+
+2. Verify that the symlink works:
+
+```bash
+cat .cursorrules
+```
+
+3. Open the project in Cursor and verify that the AI assistant can access the system prompt.
 
 ## Common Issues and Solutions
 
 | Issue | Solution |
 |-------|----------|
-| Git not tracking empty directories | Add a .gitkeep file to empty directories |
-| Markdown formatting issues | Use a Markdown linter or preview tool to check formatting |
-| File permission issues | Ensure you have the necessary permissions to create files and directories |
+| Symlink not working on Windows | Ensure you're running the command prompt as administrator |
+| Files not showing up in Git | Ensure they're not being ignored by .gitignore |
+| Markdown not rendering correctly | Check for syntax errors in the markdown files |
 
 ## Validation Checklist
 
-- [ ] Project repository created with README.md, .gitignore, and package.json
-- [ ] Directory structure created according to the design
-- [ ] Documentation files created with basic content
-- [ ] Base template structure created with placeholder files
-- [ ] Concept guides created with placeholder content
-- [ ] Implementation guides created with placeholder content
+- [ ] Project repository created
+- [ ] Directory structure set up
+- [ ] Core documentation files created
+- [ ] Template files created
+- [ ] System prompt symlink created
+- [ ] All files committed to Git
 
 ## Next Steps
 
-After completing this milestone, you should proceed to [01: Core System](./01-core-system.md) to begin implementing the core functionality of the Concrete system.
+After completing this milestone, you should proceed to [01: Core System Implementation](./01-core-system-implementation.md) to implement the core system components.
 
 ## Resources
 
 - [Markdown Guide](https://www.markdownguide.org/)
 - [Git Documentation](https://git-scm.com/doc)
-- [Node.js Documentation](https://nodejs.org/en/docs/)
 - [Cursor AI Editor](https://cursor.sh/) 

@@ -1,11 +1,11 @@
 # Concrete Project Overview
 
-**Date**: March 8, 2024  
+**Date**: March 8, 2025  
 **Authors**: Unforced, Claude 3.7 Sonnet
 
 ## Project Vision
 
-Concrete is an AI-powered templating and project generation system designed to work within AI editors like Cursor. It transforms ideation documents into fully-realized project structures with implementation guides, concepts, templates, and other resources that help developers build applications efficiently.
+Concrete is an AI-powered system that helps create consistent, well-structured projects through conversational AI development. The name "Concrete" comes from "Converse & Create" - emphasizing the conversational approach to project creation. Concrete generates `.concrete` directories that serve as intelligent guides for AI assistants like Cursor, providing context and structure for building applications and other digital artifacts.
 
 ## Problem Statement
 
@@ -15,54 +15,53 @@ Developers often spend significant time setting up new projects, implementing bo
 
 Concrete addresses these challenges by providing:
 
-1. **Structured Templates**: Pre-defined project structures with best practices built-in
-2. **AI-Powered Generation**: Instructions for AI assistants to generate code that follows consistent patterns
-3. **Implementation Guides**: Step-by-step guides for implementing features and functionality
-4. **Conceptual Documentation**: Explanations of key concepts and architectural decisions
-5. **Learning Mechanism**: A system that improves templates based on user feedback and usage patterns
+1. **Conversational Project Creation**: Transform ideation conversations into structured project guides
+2. **Intelligent Resource Generation**: Generate implementation guides, concept guides, templates, and troubleshooting resources
+3. **Interconnected Documentation**: Create cross-linked resources that provide context for AI assistants
+4. **Customization and Flexibility**: Support various project types and structures with customizable templates
+5. **Learning and Evolution**: Improve templates based on feedback and successful implementations
 
 ## Key Features
 
-### 1. Template Hierarchy
+### 1. Conversational Project Creation
 
-Concrete uses a hierarchical approach to templates:
+Concrete enables developers to:
+- Express project requirements through natural conversation
+- Refine project specifications through dialogue
+- Generate structured project briefs from ideation conversations
+- Transform project briefs into complete project guides
 
-- **Base Templates**: Foundational templates with common utilities and patterns
-- **Specialized Templates**: Templates for specific tech stacks (e.g., React/Supabase)
-- **Project Templates**: Complete application templates for specific use cases
+### 2. Intelligent Resource Generation
 
-### 2. Template Format
+Concrete generates:
+- **Implementation Guides**: Step-by-step instructions for implementing project milestones
+- **Concept Guides**: Explanations of core concepts and patterns
+- **Templates**: Reusable patterns for creating consistent code and documentation
+- **Troubleshooting Guides**: Solutions for common issues and best practices
 
-Each template includes:
+### 3. Interconnected Resources
 
-- **Metadata**: Template properties, dependencies, and customization points
-- **Documentation**: Human-readable guides and documentation
-- **Template Files**: Actual code files with special syntax for customization points
-- **Generation Instructions**: Natural language instructions for AI to generate custom components
+Concrete creates resources that are:
+- Cross-linked for easy navigation
+- Contextually relevant to each other
+- Organized in a way that AI assistants can easily understand
+- Structured to provide maximum context when needed
 
-### 3. Inheritance Mechanism
+### 4. Customization and Flexibility
 
-Templates can inherit from parent templates, allowing for:
+Concrete supports:
+- Various project types and structures
+- Customizable templates for different use cases
+- Flexible directory structures based on project needs
+- Adaptation to different development workflows
 
-- **Reuse**: Inheriting common functionality from parent templates
-- **Specialization**: Overriding or extending parent templates for specific needs
-- **Composition**: Combining multiple templates to create new templates
+### 5. Learning and Evolution
 
-### 4. Learning Mechanism
-
-Concrete includes a learning mechanism that:
-
-- **Collects Feedback**: Gathers feedback from users on template quality and usefulness
-- **Analyzes Usage**: Tracks how templates are used and customized
-- **Improves Templates**: Updates templates based on feedback and usage patterns
-
-### 5. Customization Points
-
-Templates include customization points that allow users to:
-
-- **Configure**: Set project-specific properties (name, description, etc.)
-- **Select Options**: Choose between different implementation options
-- **Extend**: Add custom functionality to the template
+Concrete improves through:
+- Feedback collection from users
+- Analysis of successful project implementations
+- Evolution of templates based on best practices
+- Continuous refinement of generation mechanisms
 
 ## User Personas
 
@@ -84,99 +83,102 @@ Templates include customization points that allow users to:
 - **Pain Points**: Disjointed code generation, lack of project-wide context
 - **How Concrete Helps**: Provides structured instructions for AI assistants to generate cohesive projects
 
+## Technical Architecture
+
+### Directory Structure
+
+The Concrete system uses the following directory structure:
+
+```
+concrete/
+├── .concrete/               # Documentation and resources for Concrete itself
+├── apps/                    # Generated app templates
+├── templates/               # Base templates for different project types
+└── .cursorrules             # Symlink to .concrete/system-prompt.md
+```
+
+The `.concrete` directory contains:
+
+```
+.concrete/
+├── index.md                # Navigation guide
+├── project.md              # Project overview
+├── tracking.md             # Project progress
+├── system-prompt.md        # AI instructions
+├── implementations/        # Implementation guides
+├── concepts/               # Concept guides
+├── templates/              # Templates
+└── troubleshooting/        # Troubleshooting guides
+```
+
+### Template Inheritance
+
+Templates in Concrete can inherit from parent templates, allowing for:
+- Reuse of common functionality
+- Specialization for specific use cases
+- Composition of multiple templates
+
+Inheritance is implemented through metadata at the top of markdown files, with an index in the README that shows relationships between templates.
+
+### Learning Mechanism
+
+Concrete includes multiple feedback mechanisms:
+- Dedicated feedback files auto-generated from user conversations
+- Annotations in existing files
+- Analysis of successful project implementations
+
+## Implementation Approach
+
+### Phase 1: Core System
+
+- Develop the `.concrete` directory for Concrete itself
+- Create core documentation and system prompt
+- Implement basic templates and guides
+
+### Phase 2: Template Generation
+
+- Develop mechanisms for generating templates
+- Create specialized templates for common use cases
+- Implement template inheritance
+
+### Phase 3: Learning System
+
+- Implement feedback collection
+- Develop template evolution mechanisms
+- Create analysis tools for successful implementations
+
 ## Success Criteria
 
 The Concrete project will be successful if it:
 
-1. **Reduces Setup Time**: Significantly reduces the time needed to set up new projects
-2. **Improves Quality**: Helps developers create higher-quality, more maintainable code
-3. **Enhances Consistency**: Promotes consistent project structures and patterns
-4. **Facilitates Learning**: Helps developers learn best practices and patterns
-5. **Evolves Over Time**: Improves based on user feedback and usage patterns
-
-## Project Scope
-
-### Phase 1: Core System
-
-- Develop the core templating system
-- Create the base template
-- Implement the template inheritance mechanism
-- Develop tools for template selection and customization
-
-### Phase 2: Template Extraction
-
-- Extract patterns from existing applications
-- Create specialized templates for common tech stacks
-- Develop project templates for specific use cases
-
-### Phase 3: Learning Mechanism
-
-- Implement feedback collection
-- Develop usage analysis tools
-- Create mechanisms for template improvement
-
-## Technical Requirements
-
-### System Architecture
-
-- **Template Storage**: File-based storage for templates
-- **Metadata Format**: YAML for template metadata
-- **Template Processing**: JavaScript/TypeScript for template processing
-- **AI Integration**: Natural language instructions for AI assistants
-
-### Integration Points
-
-- **AI Editors**: Integration with AI editors like Cursor
-- **Version Control**: Integration with Git for template versioning
-- **Package Managers**: Integration with npm, yarn, etc. for dependency management
-
-### Performance Requirements
-
-- **Generation Time**: Templates should generate within seconds
-- **Resource Usage**: Minimal resource usage during template processing
-- **Scalability**: Support for large templates and complex project structures
-
-## Non-Functional Requirements
-
-### Usability
-
-- **Ease of Use**: Templates should be easy to use and customize
-- **Documentation**: Comprehensive documentation for all templates
-- **Discoverability**: Easy discovery of available templates and customization options
-
-### Maintainability
-
-- **Modularity**: Templates should be modular and maintainable
-- **Testability**: Templates should be testable
-- **Extensibility**: Templates should be extensible
-
-### Security
-
-- **Input Validation**: Validate all user inputs
-- **Dependency Security**: Ensure template dependencies are secure
-- **Code Generation Security**: Ensure generated code follows security best practices
+1. Creates a complete `.concrete` directory for Concrete itself
+2. Establishes a clear, navigable, and well-documented structure
+3. Provides an effective system prompt for AI assistants
+4. Can be used to help develop itself (meta-development)
+5. Supports various project types with flexible templates
 
 ## Constraints and Assumptions
 
 ### Constraints
 
-- **AI Limitations**: AI assistants have limitations in code generation capabilities
-- **Template Complexity**: Templates must balance comprehensiveness with simplicity
-- **User Expertise**: Users may have varying levels of expertise with the technologies used
+- Initial focus on Cursor as the primary AI assistant
+- Limited to text-based project generation (no binary files)
+- Requires user interaction for refinement
 
 ### Assumptions
 
-- **AI Evolution**: AI assistants will continue to improve in code generation capabilities
-- **User Adoption**: Users will see value in using templates over starting from scratch
-- **Feedback Loop**: Users will provide feedback to improve templates
+- AI assistants will continue to improve in code generation capabilities
+- Users will see value in using templates over starting from scratch
+- Feedback loop will improve templates over time
 
 ## Glossary
 
 - **Template**: A pre-defined project structure with best practices built-in
 - **Customization Point**: A configurable aspect of a template
 - **Inheritance**: The ability for templates to inherit from parent templates
-- **Generation Instruction**: Natural language instructions for AI assistants
 - **Implementation Guide**: Step-by-step guide for implementing features
+- **Concept Guide**: Explanation of a core concept or pattern
+- **Troubleshooting Guide**: Solutions for common issues
 
 ## References
 
@@ -184,148 +186,4 @@ The Concrete project will be successful if it:
 - [GitHub Copilot](https://github.com/features/copilot)
 - [Yeoman Generator](https://yeoman.io/)
 - [Create React App](https://create-react-app.dev/)
-- [Next.js](https://nextjs.org/)
-
-## 1. Overview
-
-**Purpose**:  
-Concrete is an AI-powered templating and project generation system designed to work within AI editors like Cursor. It transforms ideation documents into fully-realized project structures with implementation guides, concepts, templates, and other resources that help developers build applications efficiently.
-
-**Goals**:  
-- *Core*: Enable efficient project generation through AI-powered templates
-- *MVP Success*: Successfully generate 3 different types of projects from templates
-- *Qualitative*: Users report significant time savings and improved project structure
-- *Long-Term*: Create a self-improving ecosystem of templates with community contributions
-
-**Target Audience**:  
-Developers using AI-powered editors like Cursor who want to quickly bootstrap projects with best practices and comprehensive documentation.
-
-## 2. System Architecture
-
-### Template Hierarchy
-
-```
-Base Templates
-    ↑
-Specialized Templates
-    ↑
-App Implementations
-```
-
-### Template Format
-
-Each template consists of:
-
-1. **Metadata** (`concrete.yaml`): Defines template properties, dependencies, and customization points
-2. **Documentation** (`docs/`): Human-readable guides and documentation
-3. **Template Files** (`template/`): Actual code files with special syntax for customization points
-4. **Generation Instructions** (`generation/`): Natural language instructions for AI to generate custom components
-
-### Workflow
-
-1. **Ideation**: User creates an initial ideation document
-2. **Project Brief**: System generates a structured project brief with specifications and questions
-3. **Refinement**: User interacts with the system to refine the brief
-4. **Template Selection**: System selects appropriate template based on project brief
-5. **Customization**: Template is customized based on project requirements
-6. **Generation**: System generates complete project structure with guides, concepts, and templates
-7. **Implementation**: User follows the guides to implement the application
-8. **Feedback**: Insights from implementation feed back into the template system
-
-## 3. Core Components
-
-### 1. Ideation Processing
-
-- **Input**: Initial ideation document (markdown)
-- **Process**: AI analyzes the document to understand project requirements
-- **Output**: Structured project brief with specifications and questions
-
-### 2. Project Brief Refinement
-
-- **Input**: Project brief and user feedback
-- **Process**: Iterative refinement through dialogue
-- **Output**: Finalized project brief
-
-### 3. Template Selection and Customization
-
-- **Input**: Finalized project brief
-- **Process**: Selection of appropriate template and customization
-- **Output**: Customized template for the specific project
-
-### 4. Guide Generation
-
-- **Input**: Customized template and project brief
-- **Process**: Generation of implementation guides, concepts, and other resources
-- **Output**: Complete project structure
-
-### 5. System Prompt Generation
-
-- **Input**: Project structure
-- **Process**: Creation of system prompt for AI assistants
-- **Output**: .system-prompt file (symlinked to .cursorrules)
-
-### 6. Learning Mechanism
-
-- **Input**: User feedback and modifications
-- **Process**: Analysis of changes and identification of patterns
-- **Output**: Improved templates and propagation of changes
-
-## 4. Implementation Plan
-
-### Phase 1: Core System Setup
-
-1. Create the basic directory structure for the Concrete system
-2. Define the template hierarchy and relationships
-3. Create the system prompt generation mechanism
-4. Implement the project brief generation from ideation documents
-
-### Phase 2: Template Extraction
-
-1. Analyze the Bump app implementation
-2. Extract patterns and structures into a React/Supabase template
-3. Further generalize into a full-stack template
-4. Create a base template for any application
-
-### Phase 3: Integration and Tooling
-
-1. Create tools for template selection and customization
-2. Implement mechanisms for template inheritance
-3. Develop utilities for easy template installation (e.g., degit integration)
-4. Create documentation for using the system
-
-### Phase 4: Learning and Improvement
-
-1. Implement feedback mechanisms for templates
-2. Create systems for propagating improvements up and down the hierarchy
-3. Develop metrics for template effectiveness
-4. Build a community around template sharing and improvement
-
-## 5. Success Metrics
-
-- **Template Usage**: Number of projects created using templates
-- **Completion Rate**: Percentage of projects that reach completion
-- **Modification Rate**: How much of the template is kept vs. modified
-- **Time to MVP**: How quickly users can reach a minimum viable product
-- **User Satisfaction**: Surveys or feedback on template quality
-- **Learning Curve**: How quickly users understand and can work with the template
-- **Community Growth**: Number of contributed templates and improvements
-
-## 6. Future Directions
-
-- **Template Registry**: Central registry for sharing templates
-- **Visual Editor**: GUI for template customization
-- **Integration with Other Editors**: Support for editors beyond Cursor
-- **Advanced Learning**: More sophisticated learning mechanisms
-- **Domain-Specific Templates**: Templates for specific domains (e.g., e-commerce, social media)
-- **Cross-Platform Support**: Templates for web, mobile, desktop, etc.
-
-## 7. Open Questions
-
-1. **Template Format**: What is the most effective format for templates that balances flexibility with ease of use?
-2. **Inheritance Mechanism**: How should template inheritance be implemented to allow for specialization while maintaining consistency?
-3. **Versioning**: How should templates be versioned to track changes and improvements?
-4. **Customization Points**: What are the key points where users should be able to customize templates?
-5. **Integration Method**: What's the best way for users to integrate Concrete into their workflow?
-6. **Learning Mechanism**: How should the system capture and incorporate learnings from implementations?
-7. **Community Aspects**: How can we foster a community around template sharing and improvement?
-8. **Evaluation Metrics**: How do we measure the effectiveness of templates in helping users build applications? 
+- [Next.js](https://nextjs.org/) 

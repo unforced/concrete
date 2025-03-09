@@ -1,347 +1,238 @@
 # Template Format
 
-**Last Updated**: March 8, 2024  
-**Related Guides**: [Inheritance Mechanism](./inheritance-mechanism.md), [Customization Points](./customization-points.md)  
-**Prerequisite Knowledge**: YAML, Markdown, Template Systems
+**Last Updated**: March 8, 2025  
+**Related Guides**: [Implementation Guide Template](../templates/implementation-guide-template.md), [Concept Guide Template](../templates/concept-guide-template.md)  
+**Prerequisite Knowledge**: Markdown, YAML, Template Systems
 
 ## Overview
 
-Templates in Concrete are structured directories that contain all the necessary files and instructions to generate a project. Each template follows a consistent format to ensure compatibility and ease of use.
+The Template Format is a core concept in Concrete that defines how templates are structured and formatted. Templates in Concrete are designed to be flexible, customizable, and inheritable, allowing for the creation of consistent project structures with minimal effort.
 
-A template consists of:
+## Key Principles
 
-1. **Metadata**: Information about the template, its dependencies, and customization points
-2. **Documentation**: Human-readable guides and documentation
-3. **Template Files**: Actual code files with special syntax for customization points
-4. **Generation Instructions**: Natural language instructions for AI to generate custom components
+1. **Markdown-Based**: Templates are primarily written in Markdown, making them human-readable and easy to edit.
 
-## Directory Structure
+2. **Metadata-Driven**: Templates include metadata that defines their properties, relationships, and customization points.
 
-Templates follow this directory structure:
+3. **Inheritance-Enabled**: Templates can inherit from parent templates, allowing for reuse and specialization.
+
+4. **Customization-Friendly**: Templates include customization points that can be configured by users.
+
+5. **AI-Optimized**: Templates are designed to be easily understood and processed by AI assistants.
+
+## Implementation Details
+
+### Template Structure
+
+A template in Concrete consists of the following components:
 
 ```
-template-name/
-├── concrete.yaml           # Template metadata
-├── docs/                   # Documentation
-│   ├── overview.md         # Template overview
-│   ├── customization.md    # Customization guide
-│   └── ...                 # Additional documentation
-├── template/               # Template files
-│   ├── src/                # Source code
-│   ├── tests/              # Tests
-│   └── ...                 # Additional files
-└── generation/             # Generation instructions
-    ├── components.md       # Component generation instructions
-    ├── api-endpoints.md    # API endpoint generation instructions
-    └── ...                 # Additional generation instructions
+template/
+├── metadata.yaml           # Template metadata
+├── README.md               # Template documentation
+├── content/                # Template content files
+│   ├── file1.md            # Content file with customization points
+│   ├── file2.md            # Content file with customization points
+│   └── ...                 # Additional content files
+└── resources/              # Additional resources
+    ├── resource1.md        # Resource file
+    ├── resource2.md        # Resource file
+    └── ...                 # Additional resource files
 ```
 
-## Metadata
+### Metadata Format
 
-The `concrete.yaml` file contains metadata about the template:
+Template metadata is defined in YAML format and includes the following properties:
 
 ```yaml
-name: "base-template"
+name: "Template Name"
 version: "1.0.0"
-description: "Base template for Concrete projects"
-author: "Concrete Team"
-license: "MIT"
-
-# Parent template (for inheritance)
-parent: null
-
-# Dependencies
-dependencies:
-  - name: "node"
-    version: ">=16.0.0"
-
-# Customization points
-customization:
-  - name: "project_name"
+description: "Template description"
+author: "Template author"
+parent: "Parent template name" # Optional
+customizationPoints:
+  - name: "customizationPoint1"
     type: "string"
-    description: "Name of the project"
-    default: "my-project"
-  - name: "description"
-    type: "string"
-    description: "Description of the project"
-    default: "A project created with Concrete"
-  - name: "author"
-    type: "string"
-    description: "Author of the project"
-    default: "Your Name"
-  - name: "license"
-    type: "string"
-    description: "License of the project"
-    default: "MIT"
+    description: "Description of customization point"
+    default: "Default value"
+  - name: "customizationPoint2"
+    type: "boolean"
+    description: "Description of customization point"
+    default: true
+  - name: "customizationPoint3"
+    type: "select"
+    description: "Description of customization point"
     options:
-      - "MIT"
-      - "Apache-2.0"
-      - "GPL-3.0"
-  - name: "testing_framework"
-    type: "string"
-    description: "Testing framework to use"
-    default: "jest"
-    options:
-      - "jest"
-      - "mocha"
-      - "vitest"
+      - "Option 1"
+      - "Option 2"
+      - "Option 3"
+    default: "Option 1"
 ```
 
-## Template Files
+### Content Files
 
-Template files are the actual code files that will be used to generate the project. They can contain special syntax for customization points:
-
-```javascript
-// src/config.js
-module.exports = {
-  // {{project_name}} will be replaced with the value of the project_name customization point
-  name: "{{project_name}}",
-  // {{description}} will be replaced with the value of the description customization point
-  description: "{{description}}",
-  // {{#if use_database}} and {{/if}} are conditional blocks
-  {{#if use_database}}
-  database: {
-    // {{database_url}} will be replaced with the value of the database_url customization point
-    url: "{{database_url}}",
-    // {{database_type}} will be replaced with the value of the database_type customization point
-    type: "{{database_type}}"
-  },
-  {{/if}}
-  // {{#each items}} and {{/each}} are loop blocks
-  items: [
-    {{#each items}}
-    {
-      // {{this.name}} and {{this.value}} will be replaced with the values from the items array
-      name: "{{this.name}}",
-      value: "{{this.value}}"
-    },
-    {{/each}}
-  ]
-};
-```
-
-## Generation Instructions
-
-Generation instructions are natural language instructions for AI assistants to generate custom components. They are written in Markdown and provide guidance on how to generate code that follows the template's patterns and best practices.
-
-Example of a generation instruction file:
+Content files are Markdown files that include customization points. Customization points are denoted by double curly braces:
 
 ```markdown
-# Component Generation Guide
+# {{title}}
 
-This guide provides instructions for generating components based on the Base Template. Following these guidelines will ensure that generated components are consistent, maintainable, and adhere to best practices.
+This is a template for {{purpose}}.
 
-## Component Structure
+## Features
 
-When generating components for this project, follow these guidelines:
+{{#if includeFeatures}}
+- Feature 1
+- Feature 2
+- Feature 3
+{{/if}}
 
-### General Structure
+## Getting Started
 
-Components should follow this general structure:
+To get started with {{title}}, follow these steps:
 
-1. **Imports**: Import dependencies at the top of the file
-2. **Type Definitions**: Define types/interfaces (if using TypeScript)
-3. **Component Definition**: Define the component
-4. **Helper Functions**: Define any helper functions used by the component
-5. **Exports**: Export the component and any related types/functions
-
-### Naming Conventions
-
-- Use **PascalCase** for component names
-- Use **camelCase** for function and variable names
-- Use **UPPER_SNAKE_CASE** for constants
-- Use descriptive names that clearly indicate the purpose of the component
-
-### Error Handling
-
-Components should handle errors gracefully:
-
-- Use try/catch blocks for error-prone operations
-- Log errors using the logger utility
-- Provide meaningful error messages
-- Consider using the error handling utilities from `src/utils/errors.js`
-
-## Example Component
-
-Here's an example of a well-structured component:
-
-```javascript
-/**
- * Example component that demonstrates best practices
- */
-
-// Import dependencies
-const logger = require('../utils/logger');
-const { AppError } = require('../utils/errors');
-const config = require('../config');
-
-// Define constants
-const DEFAULT_TIMEOUT = 5000;
-
-/**
- * Process data with error handling and logging
- * 
- * @param {Object} data - The data to process
- * @param {Object} options - Processing options
- * @returns {Object} The processed data
- * @throws {AppError} If processing fails
- */
-function processData(data, options = {}) {
-  try {
-    // Log the operation
-    logger.debug('Processing data', { data, options });
-    
-    // Validate input
-    if (!data) {
-      throw new AppError('Data is required', 400);
-    }
-    
-    // Process the data
-    const result = {
-      // Implementation details...
-    };
-    
-    // Log success
-    logger.info('Data processed successfully');
-    
-    return result;
-  } catch (error) {
-    // Log error
-    logger.error('Failed to process data', error);
-    
-    // Rethrow or handle the error
-    throw error;
-  }
-}
-
-module.exports = {
-  processData,
-};
-```
+1. Step 1
+2. Step 2
+3. Step 3
 ```
 
-## Inheritance
+### Inheritance
 
-Templates can inherit from parent templates, allowing for reuse and specialization. When a template inherits from a parent template, it can:
+Templates can inherit from parent templates. When a template inherits from a parent template, it inherits all content files and resources from the parent template. The child template can override any content file or resource by providing its own version.
 
-1. **Use parent template files**: Files from the parent template are available to the child template
-2. **Override parent template files**: Child template files with the same path as parent template files will override them
-3. **Extend parent template customization points**: Child templates can add new customization points or override parent customization points
-
-Inheritance is specified in the `concrete.yaml` file:
+Inheritance is defined in the metadata.yaml file:
 
 ```yaml
-name: "react-template"
+name: "Child Template"
 version: "1.0.0"
-description: "React template for Concrete projects"
-author: "Concrete Team"
-license: "MIT"
-
-# Parent template
-parent: "base-template"
-
-# Additional customization points
-customization:
-  - name: "react_version"
-    type: "string"
-    description: "React version to use"
-    default: "18.2.0"
-  - name: "use_typescript"
-    type: "boolean"
-    description: "Whether to use TypeScript"
-    default: true
-```
-
-## Examples
-
-### Basic Template
-
-A basic template might look like this:
-
-```
-base-template/
-├── concrete.yaml
-├── docs/
-│   ├── overview.md
-│   └── customization.md
-├── template/
-│   ├── src/
-│   │   ├── index.js
-│   │   ├── config.js
-│   │   └── utils/
-│   │       ├── logger.js
-│   │       └── errors.js
-│   ├── tests/
-│   │   └── utils/
-│   │       ├── logger.test.js
-│   │       └── errors.test.js
-│   └── package.json
-└── generation/
-    ├── components.md
-    ├── api-endpoints.md
-    └── error-handling.md
-```
-
-### Specialized Template
-
-A specialized template that inherits from the base template might look like this:
-
-```
-react-template/
-├── concrete.yaml
-├── docs/
-│   ├── overview.md
-│   └── customization.md
-├── template/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── App.jsx
-│   │   │   └── Home.jsx
-│   │   ├── styles/
-│   │   │   └── global.css
-│   │   └── index.jsx
-│   ├── tests/
-│   │   └── components/
-│   │       ├── App.test.jsx
-│   │       └── Home.test.jsx
-│   └── package.json
-└── generation/
-    ├── components.md
-    ├── hooks.md
-    └── styles.md
+description: "Child template description"
+author: "Child template author"
+parent: "Parent Template"
 ```
 
 ## Best Practices
 
-1. **Keep templates modular**: Break down templates into logical components
-2. **Document thoroughly**: Provide comprehensive documentation for each template
-3. **Use consistent naming**: Follow consistent naming conventions
-4. **Provide sensible defaults**: Set reasonable default values for customization points
-5. **Include examples**: Provide examples of how to use the template
-6. **Test templates**: Ensure templates work as expected
-7. **Version templates**: Use semantic versioning for templates
-8. **Consider inheritance**: Use inheritance to avoid duplication
-9. **Provide generation instructions**: Include detailed instructions for AI assistants
-10. **Keep it simple**: Avoid unnecessary complexity
+1. **Use Clear Names**: Use clear and descriptive names for templates, customization points, and files.
 
-## Implementation Notes
+2. **Provide Defaults**: Always provide default values for customization points to ensure templates work out of the box.
 
-When implementing a template:
+3. **Document Everything**: Include comprehensive documentation for templates, including usage instructions and examples.
 
-1. Start with the `concrete.yaml` file to define metadata and customization points
-2. Create documentation in the `docs/` directory
-3. Add template files with customization syntax
-4. Write generation instructions for complex components
-5. Test the template with different customization options
+4. **Keep It Simple**: Keep templates as simple as possible while still providing the necessary functionality.
 
-## Future Enhancements
+5. **Test Templates**: Test templates with different customization values to ensure they work as expected.
 
-1. **Template Validation**: Tools to validate template syntax and structure
-2. **Visual Editor**: GUI for creating and editing templates
-3. **Template Registry**: Central registry for sharing templates
-4. **Version Control Integration**: Better integration with Git and other VCS
-5. **Dependency Management**: More sophisticated dependency management
+## Common Pitfalls
 
----
+1. **Overcomplicating Templates**: Templates should be as simple as possible while still providing the necessary functionality. Avoid adding unnecessary complexity.
 
-*This is a living document. As the Concrete system evolves, this guide will be updated to reflect the latest best practices and features.* 
+2. **Missing Documentation**: Templates should include comprehensive documentation to help users understand how to use them.
+
+3. **Hardcoding Values**: Avoid hardcoding values that should be customizable. Use customization points instead.
+
+4. **Ignoring Inheritance**: When creating child templates, be mindful of what is inherited from the parent template.
+
+5. **Inconsistent Formatting**: Maintain consistent formatting across all templates to ensure a cohesive experience.
+
+## Examples
+
+### Example 1: Simple Template
+
+```yaml
+# metadata.yaml
+name: "Simple Template"
+version: "1.0.0"
+description: "A simple template for demonstration purposes"
+author: "Concrete Team"
+customizationPoints:
+  - name: "projectName"
+    type: "string"
+    description: "The name of the project"
+    default: "My Project"
+  - name: "includeTests"
+    type: "boolean"
+    description: "Whether to include tests"
+    default: true
+```
+
+```markdown
+# {{projectName}}
+
+This is a simple project created with Concrete.
+
+## Features
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+{{#if includeTests}}
+## Tests
+
+This project includes tests.
+{{/if}}
+```
+
+### Example 2: Child Template
+
+```yaml
+# metadata.yaml
+name: "Child Template"
+version: "1.0.0"
+description: "A child template that inherits from Simple Template"
+author: "Concrete Team"
+parent: "Simple Template"
+customizationPoints:
+  - name: "projectName"
+    type: "string"
+    description: "The name of the project"
+    default: "My Child Project"
+  - name: "includeDocumentation"
+    type: "boolean"
+    description: "Whether to include documentation"
+    default: true
+```
+
+```markdown
+# {{projectName}}
+
+This is a child project created with Concrete.
+
+## Features
+
+- Feature 1
+- Feature 2
+- Feature 3
+- Additional Feature 1
+- Additional Feature 2
+
+{{#if includeTests}}
+## Tests
+
+This project includes tests.
+{{/if}}
+
+{{#if includeDocumentation}}
+## Documentation
+
+This project includes documentation.
+{{/if}}
+```
+
+## Related Concepts
+
+- [Inheritance Mechanism](./inheritance-mechanism.md): How templates inherit from parent templates
+- [Customization Points](./customization-points.md): How templates can be customized
+- [Generation Mechanism](./generation-mechanism.md): How templates are used to generate projects
+
+## Implementation Guides
+
+This concept is used in the following implementation guides:
+
+- [Project Setup](../implementations/00-project-setup.md): Setting up the project structure
+- [Core System Implementation](../implementations/01-core-system-implementation.md): Implementing the core system components
+
+## External Resources
+
+- [Handlebars.js](https://handlebarsjs.com/): A popular templating engine that uses similar syntax
+- [YAML Specification](https://yaml.org/spec/1.2/spec.html): The YAML specification used for metadata
+- [Markdown Guide](https://www.markdownguide.org/): A comprehensive guide to Markdown syntax 
