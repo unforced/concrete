@@ -12,6 +12,7 @@ The `.concrete` directory contains all the documentation and resources for the C
 ├── project.md              # Project overview and requirements
 ├── tracking.md             # Project tracking and status
 ├── system-prompt.md        # System prompt for AI assistants
+├── ideation/               # Project ideation documents
 ├── workflows/              # Workflow guides for using Concrete
 ├── implementations/        # Implementation guides for milestones
 ├── concepts/               # Concept guides explaining core concepts
@@ -29,6 +30,7 @@ The `.concrete` directory contains all the documentation and resources for the C
 
 These guides explain how to use Concrete for different scenarios:
 
+- [From Ideation to Implementation](./workflows/ideation-to-implementation.md) - The complete workflow from idea to implementation
 - [From Ideation to Template](./workflows/ideation-to-template.md) - How to create a template from an ideation document
 - [Template Specialization](./workflows/template-specialization.md) - How to specialize an existing template
 - [Pattern Extraction](./workflows/pattern-extraction.md) - How to extract patterns from existing applications
@@ -60,9 +62,12 @@ These guides explain the core concepts of the Concrete system:
 
 ## Templates
 
+- [Ideation Template](./templates/ideation-template.md) - Template for starting a new project
 - [Implementation Guide Template](./templates/implementation-guide-template.md) - Template for creating implementation guides
 - [Concept Guide Template](./templates/concept-guide-template.md) - Template for creating concept guides
 - [Troubleshooting Guide Template](./templates/troubleshooting-guide-template.md) - Template for creating troubleshooting guides
+- [Feedback Template](./templates/feedback-template.md) - Template for collecting feedback
+- [React + Supabase Structure](./templates/react-supabase-structure.md) - Template structure for React + Supabase projects
 
 ## Troubleshooting Guides
 
@@ -72,11 +77,12 @@ These guides explain the core concepts of the Concrete system:
 
 1. Start with the [Project Overview](./project.md) to understand the goals and requirements of the project.
 2. Check the [Project Tracking](./tracking.md) to see the current status and progress.
-3. Read the [workflow guides](#workflow-guides) to understand how to use Concrete for different scenarios.
-4. Explore the [concept guides](#concept-guides) to understand the core concepts of the system.
-5. Follow the [implementation guides](#milestone-implementation-guides) in order to implement the project milestones.
+3. Follow the [From Ideation to Implementation](./workflows/ideation-to-implementation.md) guide to understand the complete workflow.
+4. Use the [Ideation Template](./templates/ideation-template.md) to start a new project.
+5. Explore the [concept guides](#concept-guides) to understand the core concepts of the system.
 6. Use the [templates](#templates) as a starting point for creating new documentation.
 7. Refer to the [troubleshooting guides](#troubleshooting-guides) if you encounter any issues.
+8. Record your feedback using the [Feedback Template](./templates/feedback-template.md).
 
 ## Contributing
 
