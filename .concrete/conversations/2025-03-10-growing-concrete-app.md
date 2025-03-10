@@ -19,6 +19,7 @@
 3. **Feedback Integration**
    - Addition of feedback.md to track system feedback
    - Using feedback to periodically improve the system
+   - Later decided to capture feedback through conversation summaries instead
 
 4. **User Action Guidance**
    - Clear specification of required user actions (e.g., setting up Supabase, environment variables)
@@ -28,6 +29,11 @@
    - Need to start from a clearer slate
    - Many existing components don't reflect the correct understanding
    - Addition of a conversations directory to capture dialogue insights
+
+6. **Documentation Consolidation**
+   - Combining index.md and project.md into a single README.md
+   - Creating a universal system prompt that points to project-specific README.md
+   - Simplifying the overall structure while maintaining comprehensive documentation
 
 ## Decisions Made
 
@@ -47,33 +53,65 @@
    - **Rationale**: This represents the core of the new templating approach
    - **Alternatives Considered**: Focusing first on revising core documentation
 
+5. **Use universal system prompt**
+   - **Rationale**: Ensures consistency across projects while reducing maintenance burden
+   - **Alternatives Considered**: Project-specific prompts or a hybrid approach
+
+6. **Consolidate documentation into README.md**
+   - **Rationale**: Simplifies navigation and reduces redundancy
+   - **Alternatives Considered**: Keeping separate index.md and project.md files
+
 ## Open Questions
 
-1. **System prompt approach**
-   - Should the system prompt be unique to each concrete project or a universal prompt for all .concrete apps?
-   - What's the best way to structure the system prompt to emphasize conversation?
-
-2. **Starters directory structure**
+1. **Starters directory structure**
    - What exactly should go into the `.concrete/starters/react_vite_supabase` directory?
    - How detailed should the specifications be versus the actual implementation?
 
+2. **README.md in root vs. .concrete**
+   - How should the root README.md relate to the .concrete/README.md?
+   - What content should be in each?
+
+3. **Handling of existing workflow documents**
+   - Should we keep, update, or remove the existing workflow documents?
+   - How do they fit into the new conversation-driven approach?
+
 ## Action Items
 
-1. **Revise core documentation**
+1. ✅ **Create conversations directory**
    - **Owner**: Claude with Unforced's feedback
-   - **Timeline**: After conversation structure is finalized
-   - **Details**: Update system-prompt.md, project.md, and index.md to reflect the conversation-driven approach
+   - **Timeline**: Completed March 10, 2025
+   - **Details**: Created directory with template and README
 
-2. **Create starters directory structure**
+2. ✅ **Revise system-prompt.md**
    - **Owner**: Claude with Unforced's feedback
-   - **Timeline**: After conversation structure is finalized
-   - **Details**: Begin defining what should go into `.concrete/starters/react_vite_supabase`
+   - **Timeline**: Completed March 10, 2025
+   - **Details**: Created universal prompt that emphasizes conversation and points to README.md
+
+3. ✅ **Create consolidated README.md**
+   - **Owner**: Claude with Unforced's feedback
+   - **Timeline**: Completed March 10, 2025
+   - **Details**: Combined index.md and project.md into comprehensive README.md
+
+4. ✅ **Create starters directory structure**
+   - **Owner**: Claude with Unforced's feedback
+   - **Timeline**: Completed March 10, 2025
+   - **Details**: Created .concrete/starters/react_vite_supabase directory
+
+5. **Create React/Vite + Supabase specification**
+   - **Owner**: Claude with Unforced's feedback
+   - **Timeline**: Next step
+   - **Details**: Define what should go into the starter template
+
+6. **Delete redundant files**
+   - **Owner**: Unforced or Claude
+   - **Timeline**: After confirming they're no longer needed
+   - **Details**: Remove index.md and project.md once README.md is finalized
 
 ## Next Conversation
 
-**Proposed Topic**: Revising core documentation (system-prompt.md, project.md)  
-**Proposed Date**: After feedback on conversation structure  
-**Preparation Needed**: Review of existing documentation and preparation of proposed revisions
+**Proposed Topic**: React/Vite + Supabase starter template specification  
+**Proposed Date**: After feedback on README.md and system prompt  
+**Preparation Needed**: Research on best practices for React/Vite + Supabase projects and review of Bump app structure
 
 ---
 
