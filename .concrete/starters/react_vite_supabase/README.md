@@ -149,7 +149,7 @@ This starter template will be implemented through the following milestones:
 - Install and configure shadcn/ui
 - Set up Vitest and Playwright for testing
 
-[Implementation Guide (Coming Soon)]()
+[Implementation Guide](guides/01-project-setup.md)
 
 ### 2. Authentication
 
@@ -211,8 +211,8 @@ This starter template will be implemented through the following milestones:
 
 | Milestone | Status | Completion % |
 |-----------|--------|--------------|
-| Project Specification | In Progress | 80% |
-| Project Setup | Not Started | 0% |
+| Project Specification | Completed | 100% |
+| Project Setup | In Progress | 50% |
 | Authentication | Not Started | 0% |
 | User Profile System | Not Started | 0% |
 | UI Components | Not Started | 0% |
