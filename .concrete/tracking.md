@@ -23,8 +23,14 @@ This document tracks the progress of the Concrete project development.
 - [x] Commit initial project structure
 
 ### Milestone 1: Create Base Concrete
-- [ ] Create essential files for base concrete template
-- [ ] Create essential directories for base concrete template
+- [x] Create essential files for base concrete template:
+  - [x] system-prompt.md
+  - [x] README.md
+  - [x] tracking.md
+- [x] Create essential directories for base concrete template:
+  - [x] conversations/
+  - [x] ideation/
+  - [x] guides/
 - [x] Create guide file for Milestone 1
 - [ ] Test base concrete template
 - [ ] Commit base concrete template
@@ -48,10 +54,10 @@ This document tracks the progress of the Concrete project development.
 
 ✅ Completed: Milestone 0 - Project Setup
 ✅ Created guide files for all milestones
-Currently working on: Milestone 1 - Create Base Concrete
+Currently working on: Milestone 1 - Create Base Concrete (nearly complete)
 
 ## Next Steps
 
-1. Create essential files for base concrete template
-2. Create essential directories for base concrete template
-3. Test base concrete template 
+1. Test base concrete template
+2. Commit base concrete template
+3. Begin work on Milestone 2 - Create Vite-Supabase Concrete 
