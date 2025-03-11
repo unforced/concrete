@@ -27,16 +27,14 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
     - [`00-project-setup.md`](.concrete/guides/00-project-setup.md): Guide for project setup
     - [`01-create-base-concrete.md`](.concrete/guides/01-create-base-concrete.md): Guide for creating base concrete
     - [`02-create-vite-supabase-concrete.md`](.concrete/guides/02-create-vite-supabase-concrete.md): Guide for creating vite-supabase concrete
-    - [`03-create-bump-concrete.md`](.concrete/guides/03-create-bump-concrete.md): Guide for creating bump concrete
 
 ### Project Deliverables
 
 - **`concrete-libs/`**: Template `.concrete` folders for different project types
   - **`base/`**: Generic foundation for any project
   - **`vite-supabase/`**: Specialized for React/Vite and Supabase projects
-  - **`bump/`**: Specific implementation for the Bump application
 
-- **`starter-projects/`**: Full example applications with their `.concrete` folders
+- **`starter-projects/`**: Full example applications with their `.concrete` folders (future work)
 
 ## Milestones
 
@@ -62,13 +60,6 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
   - Include project setup guide with boilerplate initialization
 - **Guide**: [02-create-vite-supabase-concrete.md](.concrete/guides/02-create-vite-supabase-concrete.md)
 
-### Milestone 3: Create Bump Concrete
-- **Objective**: Develop application-specific template for the Bump application
-- **Key Tasks**:
-  - Build on the vite-supabase template
-  - Prepare the template to receive user ideation input
-- **Guide**: [03-create-bump-concrete.md](.concrete/guides/03-create-bump-concrete.md)
-
 ## How to Use This Repository
 
 This repository serves as both an implementation of Concrete and a tool for generating Concrete templates for other projects. To use it:
@@ -83,6 +74,7 @@ This repository serves as both an implementation of Concrete and a tool for gene
 Important discussions about the project are documented in the `.concrete/conversations/` folder:
 - [2024-03-11-project-setup.md](.concrete/conversations/2024-03-11-project-setup.md): Initial project setup
 - [2024-03-11-base-concrete-implementation.md](.concrete/conversations/2024-03-11-base-concrete-implementation.md): Base concrete implementation
+- [2024-03-11-vite-supabase-concrete-implementation.md](.concrete/conversations/2024-03-11-vite-supabase-concrete-implementation.md): Vite-Supabase concrete implementation
 
 ## Contributing
 
