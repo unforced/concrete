@@ -32,8 +32,8 @@ This document tracks the progress of the Concrete project development.
   - [x] ideation/
   - [x] guides/
 - [x] Create guide file for Milestone 1
-- [ ] Test base concrete template
-- [ ] Commit base concrete template
+- [x] Test base concrete template
+- [x] Commit base concrete template
 
 ### Milestone 2: Create Vite-Supabase Concrete
 - [ ] Copy base concrete template to vite-supabase
@@ -53,11 +53,12 @@ This document tracks the progress of the Concrete project development.
 ## Current Status
 
 ✅ Completed: Milestone 0 - Project Setup
+✅ Completed: Milestone 1 - Create Base Concrete
 ✅ Created guide files for all milestones
-Currently working on: Milestone 1 - Create Base Concrete (nearly complete)
+Currently working on: Milestone 2 - Create Vite-Supabase Concrete
 
 ## Next Steps
 
-1. Test base concrete template
-2. Commit base concrete template
-3. Begin work on Milestone 2 - Create Vite-Supabase Concrete 
+1. Copy base concrete template to vite-supabase
+2. Customize for React/Vite and Supabase projects
+3. Create project setup guide with boilerplate initialization 
