@@ -30,11 +30,8 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
 
 ### Project Deliverables
 
-- **`concrete-libs/`**: Template `.concrete` folders for different project types
-  - **`base/`**: Generic foundation for any project
-  - **`vite-supabase/`**: Specialized for React/Vite and Supabase projects
-
-- **`starter-projects/`**: Full example applications with their `.concrete` folders (future work)
+- **`base/`**: Generic foundation template for any project
+- **`vite-supabase/`**: Specialized template for React/Vite and Supabase projects
 
 ## Milestones
 
@@ -42,7 +39,7 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
 - **Objective**: Initialize git repository, create project structure
 - **Key Tasks**:
   - Create essential directories and files
-  - Set up the basic structure for concrete-libs
+  - Set up the basic structure for concrete templates
 - **Guide**: [00-project-setup.md](.concrete/guides/00-project-setup.md)
 
 ### Milestone 1: Create Base Concrete
@@ -62,11 +59,11 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
 
 ## How to Use This Repository
 
-This repository serves as both an implementation of Concrete and a tool for generating Concrete templates for other projects. To use it:
+This repository serves as both an implementation of Concrete and a library of Concrete templates for other projects. To use it:
 
 1. Clone this repository
-2. Choose a template from `concrete-libs/` that matches your project needs
-3. Copy the chosen template to your project as a `.concrete` folder
+2. Choose a template (`base/` or `vite-supabase/`) that matches your project needs
+3. Copy the chosen template's `.concrete` folder to your project
 4. Follow the guides in the `.concrete/guides/` folder to develop your project
 
 ## Conversations

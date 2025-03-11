@@ -15,9 +15,9 @@ This guide outlines the steps for creating the base Concrete template, which wil
 Create the basic directory structure for the base concrete template:
 
 ```bash
-mkdir -p concrete-libs/base/.concrete/conversations
-mkdir -p concrete-libs/base/.concrete/ideation
-mkdir -p concrete-libs/base/.concrete/guides
+mkdir -p base/.concrete/conversations
+mkdir -p base/.concrete/ideation
+mkdir -p base/.concrete/guides
 ```
 
 ### 2. Create System Prompt
@@ -25,7 +25,7 @@ mkdir -p concrete-libs/base/.concrete/guides
 Create a generic system prompt focused on maintaining conversational flow:
 
 ```bash
-touch concrete-libs/base/.concrete/system-prompt.md
+touch base/.concrete/system-prompt.md
 ```
 
 The system prompt should include:
@@ -39,7 +39,7 @@ The system prompt should include:
 Create a simple README template that explains the structure:
 
 ```bash
-touch concrete-libs/base/.concrete/README.md
+touch base/.concrete/README.md
 ```
 
 The README should include:
@@ -53,7 +53,7 @@ The README should include:
 Create a minimal tracking template:
 
 ```bash
-touch concrete-libs/base/.concrete/tracking.md
+touch base/.concrete/tracking.md
 ```
 
 The tracking template should include:
@@ -68,7 +68,7 @@ Verify that the base concrete template has the essential components needed to fa
 ### 6. Commit Base Concrete Template
 
 ```bash
-git add concrete-libs/base
+git add base
 git commit -m "Create base concrete template: Minimal foundation for any project"
 ```
 

@@ -16,7 +16,7 @@ This guide outlines the steps for creating the Vite-Supabase Concrete template, 
 Copy the base concrete template to create the vite-supabase template:
 
 ```bash
-cp -r concrete-libs/base/* concrete-libs/vite-supabase/
+cp -r base/.concrete/* vite-supabase/.concrete/
 ```
 
 ### 2. Customize System Prompt
@@ -24,7 +24,7 @@ cp -r concrete-libs/base/* concrete-libs/vite-supabase/
 Modify the system prompt to include specific guidelines for React/Vite and Supabase development:
 
 ```bash
-nano concrete-libs/vite-supabase/.concrete/system-prompt.md
+nano vite-supabase/.concrete/system-prompt.md
 ```
 
 Add sections for:
@@ -38,7 +38,7 @@ Add sections for:
 Modify the README template to include specific sections for React/Vite and Supabase projects:
 
 ```bash
-nano concrete-libs/vite-supabase/.concrete/README.md
+nano vite-supabase/.concrete/README.md
 ```
 
 Add sections for:
@@ -53,7 +53,7 @@ Add sections for:
 Modify the tracking template to include common milestones for React/Vite and Supabase projects:
 
 ```bash
-nano concrete-libs/vite-supabase/.concrete/tracking.md
+nano vite-supabase/.concrete/tracking.md
 ```
 
 Add example milestones for:
@@ -68,7 +68,7 @@ Add example milestones for:
 Create a detailed project setup guide for initializing a React/Vite project with Supabase:
 
 ```bash
-nano concrete-libs/vite-supabase/.concrete/guides/00-project-setup.md
+nano vite-supabase/.concrete/guides/00-project-setup.md
 ```
 
 Include steps for:
@@ -84,7 +84,7 @@ Verify that the vite-supabase concrete template has all the necessary components
 ### 7. Commit Vite-Supabase Concrete Template
 
 ```bash
-git add concrete-libs/vite-supabase
+git add vite-supabase
 git commit -m "Create vite-supabase concrete template: Specialized foundation for React/Vite and Supabase projects"
 ```
 
@@ -96,4 +96,4 @@ git commit -m "Create vite-supabase concrete template: Specialized foundation fo
 
 ## Next Steps
 
-Once the vite-supabase concrete template is complete, we will move on to Milestone 3: Create Bump Concrete. 
+Once the vite-supabase concrete template is complete, the project will be ready for use. 

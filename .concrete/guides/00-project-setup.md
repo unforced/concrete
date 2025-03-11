@@ -6,7 +6,7 @@ This guide outlines the steps for setting up the initial project structure for C
 
 - Initialize the git repository
 - Create the `.concrete` folder with essential files and directories
-- Set up the project structure for concrete-libs and starter-projects
+- Set up the project structure for concrete templates
 
 ## Steps
 
@@ -33,10 +33,10 @@ Create the following files:
 
 ### 4. Create Project Structure
 
-Create the concrete-libs and starter-projects directories:
+Create the template directories:
 
 ```bash
-mkdir -p concrete-libs/base concrete-libs/vite-supabase concrete-libs/bump starter-projects
+mkdir -p base/.concrete vite-supabase/.concrete
 ```
 
 ### 5. Commit Initial Project Structure
