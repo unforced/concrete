@@ -21,6 +21,9 @@
   - Regular updates to `.concrete/tracking.md`
   - Regular git commits with meaningful messages
   - Adapting documentation based on user conversations
+- Improved our own project's .concrete files to better align with our guidelines:
+  - Updated the main system-prompt.md with proper file paths and detailed structure guidance
+  - Enhanced the main README.md with better organization, links to guides and conversations, and clearer milestone descriptions
 
 ## Key Discussion Points
 
@@ -30,6 +33,7 @@
 - Designed the system prompt to prioritize active listening and clarification
 - Identified and addressed gaps in the system prompt regarding proper file paths and maintenance procedures
 - Discussed the importance of being conversational and ensuring clear understanding before executing tasks
+- Recognized the importance of "eating our own dog food" by applying the same principles to our own project's .concrete files
 
 ## Next Steps
 
