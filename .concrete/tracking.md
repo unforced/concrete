@@ -44,7 +44,7 @@ This document tracks the progress of the Concrete project development.
 - [x] Create project setup guide with boilerplate initialization
 - [x] Create guide file for Milestone 2
 - [x] Test vite-supabase concrete template
-- [ ] Commit vite-supabase concrete template
+- [x] Commit vite-supabase concrete template
 
 ### Milestone 3: Create Bump Concrete
 - [ ] Copy vite-supabase concrete template to bump
@@ -57,11 +57,12 @@ This document tracks the progress of the Concrete project development.
 
 ✅ Completed: Milestone 0 - Project Setup
 ✅ Completed: Milestone 1 - Create Base Concrete
+✅ Completed: Milestone 2 - Create Vite-Supabase Concrete
 ✅ Created guide files for all milestones
-Currently working on: Milestone 2 - Create Vite-Supabase Concrete (nearly complete)
+Currently working on: Milestone 3 - Create Bump Concrete
 
 ## Next Steps
 
-1. Commit vite-supabase concrete template
-2. Begin work on Milestone 3 - Create Bump Concrete
-3. Copy vite-supabase concrete template to bump 
+1. Copy vite-supabase concrete template to bump
+2. Customize for Bump application based on ideation document
+3. Test bump concrete template 
