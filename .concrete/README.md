@@ -27,11 +27,13 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
     - [`00-project-setup.md`](.concrete/guides/00-project-setup.md): Guide for project setup
     - [`01-create-base-concrete.md`](.concrete/guides/01-create-base-concrete.md): Guide for creating base concrete
     - [`02-create-vite-supabase-concrete.md`](.concrete/guides/02-create-vite-supabase-concrete.md): Guide for creating vite-supabase concrete
+    - [`03-create-adaptive-concrete.md`](.concrete/guides/03-create-adaptive-concrete.md): Guide for creating adaptive concrete
 
 ### Project Deliverables
 
 - **`base/`**: Generic foundation template for any project
 - **`vite-supabase/`**: Specialized template for React/Vite and Supabase projects
+- **`adaptive/`**: Template designed to analyze and adapt to existing projects
 
 ## Milestones
 
@@ -57,12 +59,20 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
   - Include project setup guide with boilerplate initialization
 - **Guide**: [02-create-vite-supabase-concrete.md](.concrete/guides/02-create-vite-supabase-concrete.md)
 
+### Milestone 3: Create Adaptive Concrete
+- **Objective**: Develop template that can analyze and adapt to existing projects
+- **Key Tasks**:
+  - Create system for repository analysis
+  - Generate documentation reflecting current project state
+  - Provide foundation for capturing future ideas and directions
+- **Guide**: [03-create-adaptive-concrete.md](.concrete/guides/03-create-adaptive-concrete.md)
+
 ## How to Use This Repository
 
 This repository serves as both an implementation of Concrete and a library of Concrete templates for other projects. To use it:
 
 1. Clone this repository
-2. Choose a template (`base/` or `vite-supabase/`) that matches your project needs
+2. Choose a template (`base/`, `vite-supabase/`, or `adaptive/`) that matches your project needs
 3. Copy the chosen template's `.concrete` folder to your project
 4. Follow the guides in the `.concrete/guides/` folder to develop your project
 
@@ -72,6 +82,7 @@ Important discussions about the project are documented in the `.concrete/convers
 - [2024-03-11-project-setup.md](.concrete/conversations/2024-03-11-project-setup.md): Initial project setup
 - [2024-03-11-base-concrete-implementation.md](.concrete/conversations/2024-03-11-base-concrete-implementation.md): Base concrete implementation
 - [2024-03-11-vite-supabase-concrete-implementation.md](.concrete/conversations/2024-03-11-vite-supabase-concrete-implementation.md): Vite-Supabase concrete implementation
+- [2024-03-11-repository-structure-simplification.md](.concrete/conversations/2024-03-11-repository-structure-simplification.md): Repository structure simplification
 
 ## Contributing
 
