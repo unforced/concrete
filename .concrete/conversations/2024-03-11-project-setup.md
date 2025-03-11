@@ -15,16 +15,22 @@
   - guides/
 - Set up the project structure for concrete-libs and starter-projects
 - Created the guide file for Milestone 0
-- Committed the initial project structure
+- Created guide files for all milestones:
+  - 01-create-base-concrete.md
+  - 02-create-vite-supabase-concrete.md
+  - 03-create-bump-concrete.md
+- Committed the initial project structure and guide files
 
 ## Key Discussion Points
 
 - Reviewed the vision for Concrete as a structured foundation for AI-assisted development
 - Clarified the project structure and milestones
 - Established the purpose of each component in the Concrete system
+- Discussed the importance of creating all guide files before beginning implementation
+- Outlined the process for developing the Concrete system
 
 ## Next Steps
 
 - Begin work on Milestone 1: Create Base Concrete
 - Create essential files and directories for the base concrete template
-- Create the guide file for Milestone 1 
+- Test the base concrete template 

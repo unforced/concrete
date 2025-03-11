@@ -4,8 +4,8 @@ This guide outlines the steps for creating the base Concrete template, which wil
 
 ## Objectives
 
-- Create a non-specific concrete template suitable for any project
-- Include basic git integration but remain otherwise flexible
+- Create a minimal, non-specific concrete template suitable for any project
+- Focus on facilitating conversation flow and adaptation to user vision
 - Ensure the template can be easily extended for specific project types
 
 ## Steps
@@ -22,68 +22,54 @@ mkdir -p concrete-libs/base/.concrete/guides
 
 ### 2. Create System Prompt
 
-Create a generic system prompt that can be adapted to any project:
+Create a generic system prompt focused on maintaining conversational flow:
 
 ```bash
 touch concrete-libs/base/.concrete/system-prompt.md
 ```
 
 The system prompt should include:
-- General guidelines for AI assistance
-- Instructions for maintaining project structure
-- Guidelines for conversation management
-- Instructions for documentation and testing
+- Guidelines for facilitating conversation with the user
+- Instructions for adapting to the user's vision
+- Guidelines for conversation management and documentation
+- Instructions for helping users share ideas via ideation or chat
 
 ### 3. Create README Template
 
-Create a generic README template that can be customized for any project:
+Create a simple README template that explains the structure:
 
 ```bash
 touch concrete-libs/base/.concrete/README.md
 ```
 
 The README should include:
-- Project overview section (to be filled in)
-- Project structure section
-- Milestones section (to be filled in)
-- How to use the project section
+- Brief explanation of the Concrete system
+- Description of the folder structure
+- Instructions for users on how to share their vision
+- Guidance on using ideation documents and conversations
 
 ### 4. Create Tracking Template
 
-Create a generic tracking template:
+Create a minimal tracking template:
 
 ```bash
 touch concrete-libs/base/.concrete/tracking.md
 ```
 
 The tracking template should include:
-- Milestones section (to be filled in)
+- Basic structure for tracking progress
 - Current status section
 - Next steps section
 
-### 5. Create Initial Guide Template
+### 5. Test Base Concrete Template
 
-Create a template for the project setup guide:
+Verify that the base concrete template has the essential components needed to facilitate conversation and adapt to a user's vision.
 
-```bash
-touch concrete-libs/base/.concrete/guides/00-project-setup.md
-```
-
-The guide template should include:
-- Objectives section
-- Steps section
-- User actions section
-- Next steps section
-
-### 6. Test Base Concrete Template
-
-Verify that the base concrete template has all the necessary components and can be easily adapted to different project types.
-
-### 7. Commit Base Concrete Template
+### 6. Commit Base Concrete Template
 
 ```bash
 git add concrete-libs/base
-git commit -m "Create base concrete template: Generic foundation for any project"
+git commit -m "Create base concrete template: Minimal foundation for any project"
 ```
 
 ## User Actions
