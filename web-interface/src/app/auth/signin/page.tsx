@@ -6,8 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('demo@example.com');
+  const [password, setPassword] = useState('password');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ export default function SignIn() {
       });
 
       if (result?.error) {
-        setError('Invalid email or password');
+        setError('Invalid email or password. Try using demo@example.com / password');
         setIsLoading(false);
         return;
       }
@@ -56,6 +56,9 @@ export default function SignIn() {
           <h2 className="mt-6 text-3xl font-bold text-gray-900 dark:text-white">Sign in to Concrete</h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Your AI-powered project structure companion
+          </p>
+          <p className="mt-2 text-xs text-blue-600 dark:text-blue-400">
+            Demo credentials: demo@example.com / password
           </p>
         </div>
 

@@ -55,7 +55,8 @@ export const authConfig: NextAuthConfig = {
       : []),
   ],
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: '/auth/signin',
@@ -74,6 +75,15 @@ export const authConfig: NextAuthConfig = {
         token.id = user.id;
       }
       return token;
+    },
+    // Add authorized callback to control access
+    async authorized({ request, auth }) {
+      // Return true if user is logged in or accessing a public page
+      const { pathname } = request.nextUrl;
+      if (pathname.startsWith('/api/')) return true; // Allow API routes
+      if (pathname.startsWith('/auth/')) return true; // Allow auth pages
+      if (pathname === '/') return true; // Allow home page
+      return !!auth; // Require auth for other pages
     }
   },
   secret: process.env.NEXTAUTH_SECRET || "your-secret-key-for-development",
