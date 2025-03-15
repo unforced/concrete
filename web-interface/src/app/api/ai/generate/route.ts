@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '../../auth/[...nextauth]/route';
 
 export async function POST(req: NextRequest) {
   try {
-    // In a real implementation, we would check authentication here
-    // For now, we'll skip the authentication check for simplicity
+    // Check authentication
+    const session = await auth();
+    
+    // For development, we'll allow requests without authentication
+    // In production, you would want to require authentication
+    if (!session && process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
 
     // Parse request body
     const body = await req.json();

@@ -44,6 +44,9 @@ export const authOptions: NextAuthConfig = {
       }
     })
   ],
+  session: {
+    strategy: "jwt"
+  },
   pages: {
     signIn: '/auth/signin',
     signOut: '/auth/signout',
@@ -60,8 +63,12 @@ export const authOptions: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET || "your-secret-key-for-development",
 };
 
-// Create the handler using the updated config
-const handler = NextAuth(authOptions);
+// Create the auth function and handler
+const { handlers, auth } = NextAuth(authOptions);
 
-// Export the handler functions
-export { handler as GET, handler as POST }; 
+// Export the auth function for use in other files
+export { auth };
+
+// Export the handler functions for API routes
+export const GET = handlers.GET;
+export const POST = handlers.POST; 
