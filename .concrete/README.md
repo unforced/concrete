@@ -77,6 +77,18 @@ By providing a consistent structure and workflow, Concrete helps ensure that:
 - Project progress is tracked and visible
 - Development follows a structured, milestone-based approach
 
+### Web Interface Vision
+
+The next phase of Concrete involves creating a web interface with a chatbot that helps users develop their project vision and generate appropriate .concrete structures. Key components include:
+
+1. **Conversational AI Interface**: A chatbot that guides users through vision refinement with optional voice capabilities
+2. **Visualization Tools**: Mind-mapping and real-time preview of the .concrete structure being built
+3. **Multi-modal Input**: Support for sketches, file uploads, and template customization
+4. **Export & Integration**: One-click export and direct integration with development environments
+5. **Collaborative Features**: Shared sessions and version history for team-based development
+
+This web interface will make Concrete more accessible to users who prefer a guided approach to project setup and ideation.
+
 ## Project Structure
 
 ### Concrete System Structure
@@ -97,11 +109,13 @@ The Concrete system lives within the `.concrete` folder and consists of:
   - **`conversations/`**: Summaries of AI-human interactions
   - **`ideation/`**: User thoughts and brainstorming
     - [`vision-refined.md`](.concrete/ideation/vision-refined.md): Initial vision for the Concrete system
+    - [`expanded-next-phase.md`](.concrete/ideation/expanded-next-phase.md): Expanded vision for the web interface
   - **`guides/`**: Milestone-specific instruction files
     - [`00-project-setup.md`](.concrete/guides/00-project-setup.md): Guide for project setup
     - [`01-create-base-concrete.md`](.concrete/guides/01-create-base-concrete.md): Guide for creating base concrete
     - [`02-create-vite-supabase-concrete.md`](.concrete/guides/02-create-vite-supabase-concrete.md): Guide for creating vite-supabase concrete
     - [`03-create-adaptive-concrete.md`](.concrete/guides/03-create-adaptive-concrete.md): Guide for creating adaptive concrete
+    - [`04-web-interface-development.md`](.concrete/guides/04-web-interface-development.md): Guide for web interface development
 
 ### Project Deliverables
 
@@ -141,6 +155,16 @@ The Concrete system lives within the `.concrete` folder and consists of:
   - Provide foundation for capturing future ideas and directions
 - **Guide**: [03-create-adaptive-concrete.md](.concrete/guides/03-create-adaptive-concrete.md)
 
+### Milestone 4: Web Interface Development
+- **Objective**: Create a web interface with chatbot for generating .concrete structures
+- **Key Tasks**:
+  - Design and implement conversational AI interface
+  - Develop visualization tools for project structure
+  - Create multi-modal input methods
+  - Implement export and integration options
+  - Add collaborative features
+- **Guide**: [04-web-interface-development.md](.concrete/guides/04-web-interface-development.md)
+
 ## How to Use This Repository
 
 This repository serves as both an implementation of Concrete and a library of Concrete templates for other projects. To use it:
@@ -158,6 +182,7 @@ Important discussions about the project are documented in the `.concrete/convers
 - [2024-03-11-vite-supabase-concrete-implementation.md](.concrete/conversations/2024-03-11-vite-supabase-concrete-implementation.md): Vite-Supabase concrete implementation
 - [2024-03-11-repository-structure-simplification.md](.concrete/conversations/2024-03-11-repository-structure-simplification.md): Repository structure simplification
 - [2024-03-15-readme-system-prompt-consolidation.md](.concrete/conversations/2024-03-15-readme-system-prompt-consolidation.md): Combining README.md and system-prompt.md into a single file for simplicity and better maintenance
+- [2024-05-15-next-phase-ideation.md](.concrete/conversations/2024-05-15-next-phase-ideation.md): Exploring ideas for the web interface and chatbot experience for the next phase of Concrete
 
 ## Contributing
 
