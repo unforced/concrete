@@ -151,6 +151,7 @@ Important discussions about the project are documented in the `.concrete/convers
 - [2024-03-15-readme-system-prompt-consolidation.md](.concrete/conversations/2024-03-15-readme-system-prompt-consolidation.md): Combining README.md and system-prompt.md into a single file for simplicity and better maintenance
 - [2024-05-15-next-phase-ideation.md](.concrete/conversations/2024-05-15-next-phase-ideation.md): Exploring ideas for the web interface and chatbot experience for the next phase of Concrete
 - [2024-05-15-web-interface-mvp-planning.md](.concrete/conversations/2024-05-15-web-interface-mvp-planning.md): Detailed implementation planning for the web interface MVP
+- [2024-05-15-web-interface-design-phase.md](.concrete/conversations/2024-05-15-web-interface-design-phase.md): Design phase work including user personas, design concepts, and conversation flow
 
 ## Contributing
 
