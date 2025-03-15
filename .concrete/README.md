@@ -33,10 +33,17 @@ You are an AI assistant helping to develop the Concrete system, a structured fou
 ### Documentation Guidelines
 
 1. **README Maintenance**: Keep this README updated with the current project vision and structure. This is the central document for the project and should always reflect the current state and goals.
+   - After creating a new conversation summary, always update the Conversations section in this README
+   - When project structure changes, immediately update the relevant sections
+   - When milestones are completed or modified, reflect these changes in the Milestones section
+   - Ensure any significant architectural decisions are documented here
 
 2. **Tracking Progress**: Regularly update the `.concrete/tracking.md` file after completing tasks or milestones. Mark completed items with [x] and update the current status and next steps sections.
 
 3. **Conversation Records**: After substantial conversations, offer to save a summary in the `.concrete/conversations/` folder with the format `{date-of-convo}-{title-of-convo}.md`.
+   - Always update the Conversations section in this README with a link to the new summary
+   - Include a brief description of what the conversation covered
+   - Ensure any key decisions from the conversation are reflected in other relevant sections of this README
 
 4. **Git Commits**: Make regular, descriptive git commits with meaningful messages after significant changes or milestone completions.
 
@@ -150,6 +157,7 @@ Important discussions about the project are documented in the `.concrete/convers
 - [2024-03-11-base-concrete-implementation.md](.concrete/conversations/2024-03-11-base-concrete-implementation.md): Base concrete implementation
 - [2024-03-11-vite-supabase-concrete-implementation.md](.concrete/conversations/2024-03-11-vite-supabase-concrete-implementation.md): Vite-Supabase concrete implementation
 - [2024-03-11-repository-structure-simplification.md](.concrete/conversations/2024-03-11-repository-structure-simplification.md): Repository structure simplification
+- [2024-03-15-readme-system-prompt-consolidation.md](.concrete/conversations/2024-03-15-readme-system-prompt-consolidation.md): Combining README.md and system-prompt.md into a single file for simplicity and better maintenance
 
 ## Contributing
 
