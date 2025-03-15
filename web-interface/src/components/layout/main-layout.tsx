@@ -1,4 +1,5 @@
 import React from 'react';
+import UserButton from '@/components/auth/user-button';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ export function Header() {
           <a href="#" className="text-sm font-medium hover:underline">Docs</a>
         </nav>
         <div className="flex items-center gap-4">
-          <button className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-800"></button>
+          <UserButton />
         </div>
       </div>
     </header>
