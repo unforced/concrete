@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+'use client';
 
-interface FileNode {
+import React, { useState } from 'react';
+import ExportDialog from '@/components/export/export-dialog';
+
+export interface FileNode {
   id: string;
   name: string;
   type: 'file' | 'directory';
@@ -46,60 +49,72 @@ function FileIcon({ type }: { type: 'file' | 'directory' }) {
   );
 }
 
-function TreeNode({ node, depth = 0, onNodeClick }: { 
-  node: FileNode; 
-  depth?: number;
-  onNodeClick: (node: FileNode) => void;
-}) {
-  const [isOpen, setIsOpen] = useState(depth < 2);
+interface TreeNodeProps {
+  node: FileNode;
+  onSelect: (node: FileNode) => void;
+  selectedId?: string;
+}
 
+function TreeNode({ node, onSelect, selectedId }: TreeNodeProps) {
+  const [isOpen, setIsOpen] = useState(true);
+  
+  const isDirectory = node.type === 'directory';
+  const isSelected = node.id === selectedId;
+  
   const toggleOpen = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (node.type === 'directory') {
+    if (isDirectory) {
+      e.stopPropagation();
       setIsOpen(!isOpen);
     }
   };
-
-  const handleClick = () => {
-    onNodeClick(node);
-  };
-
+  
   return (
-    <div className="select-none">
+    <div>
       <div
-        className="flex items-center gap-1 rounded-md px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
-        onClick={handleClick}
+        className={`flex cursor-pointer items-center rounded-md px-2 py-1 ${
+          isSelected ? 'bg-blue-100 dark:bg-blue-900/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+        }`}
+        onClick={() => onSelect(node)}
       >
-        {node.type === 'directory' && (
-          <button
-            className="h-4 w-4 flex items-center justify-center"
-            onClick={toggleOpen}
-          >
+        <div className="mr-1" onClick={toggleOpen}>
+          {isDirectory && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-90' : ''}`}
-              viewBox="0 0 24 24"
+              className="h-4 w-4"
               fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth="2"
             >
-              <polyline points="9 18 15 12 9 6" />
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              )}
             </svg>
-          </button>
-        )}
+          )}
+        </div>
         <FileIcon type={node.type} />
-        <span className="text-sm">{node.name}</span>
+        <span className="ml-1 text-sm">{node.name}</span>
       </div>
-
-      {isOpen && node.children && (
-        <div>
+      
+      {isDirectory && isOpen && node.children && (
+        <div className="ml-4 mt-1 border-l pl-2">
           {node.children.map((child) => (
             <TreeNode
               key={child.id}
               node={child}
-              depth={depth + 1}
-              onNodeClick={onNodeClick}
+              onSelect={onSelect}
+              selectedId={selectedId}
             />
           ))}
         </div>
@@ -110,72 +125,63 @@ function TreeNode({ node, depth = 0, onNodeClick }: {
 
 export default function StructureViewer({ structure }: StructureViewerProps) {
   const [selectedNode, setSelectedNode] = useState<FileNode | null>(null);
+  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
 
-  const handleNodeClick = (node: FileNode) => {
+  const handleNodeSelect = (node: FileNode) => {
     setSelectedNode(node);
+  };
+
+  const handleExport = () => {
+    setIsExportDialogOpen(true);
   };
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b p-4">
-        <h2 className="text-lg font-semibold">Structure Preview</h2>
-        <p className="text-sm text-gray-500">
-          This is a preview of your .concrete structure
-        </p>
+      <div className="flex items-center justify-between border-b p-4">
+        <h2 className="text-lg font-semibold">Structure Viewer</h2>
+        <button
+          onClick={handleExport}
+          className="rounded-md bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
+        >
+          Export
+        </button>
       </div>
-
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-1/2 overflow-y-auto border-r p-4">
-          <TreeNode node={structure} onNodeClick={handleNodeClick} />
+        <div className="w-1/2 overflow-auto border-r p-4">
+          <TreeNode 
+            node={structure} 
+            onSelect={handleNodeSelect} 
+            selectedId={selectedNode?.id}
+          />
         </div>
-
-        <div className="w-1/2 overflow-y-auto p-4">
+        <div className="w-1/2 overflow-auto p-4">
           {selectedNode ? (
             <div>
-              <div className="mb-4 flex items-center gap-2">
-                <FileIcon type={selectedNode.type} />
-                <h3 className="text-md font-medium">{selectedNode.name}</h3>
-              </div>
-
-              {selectedNode.type === 'file' && selectedNode.content ? (
-                <pre className="rounded-md bg-gray-100 p-4 text-sm dark:bg-gray-800">
-                  <code>{selectedNode.content}</code>
-                </pre>
-              ) : (
-                <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-                  <p className="text-sm">
-                    {selectedNode.type === 'directory'
-                      ? `Directory with ${selectedNode.children?.length || 0} items`
-                      : 'No content available'}
-                  </p>
+              <h3 className="mb-2 text-lg font-medium">{selectedNode.name}</h3>
+              <p className="mb-4 text-sm text-gray-500">
+                {selectedNode.type === 'file' ? 'File' : 'Directory'}
+              </p>
+              {selectedNode.type === 'file' && selectedNode.content && (
+                <div className="rounded-md bg-gray-50 p-4 dark:bg-gray-800">
+                  <pre className="whitespace-pre-wrap text-sm">{selectedNode.content}</pre>
                 </div>
               )}
             </div>
           ) : (
-            <div className="flex h-full items-center justify-center">
-              <p className="text-sm text-gray-500">
-                Select a file or directory to view details
-              </p>
+            <div className="flex h-full items-center justify-center text-gray-500">
+              Select a file or directory to view details
             </div>
           )}
         </div>
       </div>
-
-      <div className="border-t p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-sm font-medium">Export Options:</span>
-          </div>
-          <div className="flex gap-2">
-            <button className="rounded-md bg-gray-200 px-3 py-1 text-sm dark:bg-gray-800">
-              Download ZIP
-            </button>
-            <button className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white">
-              Create GitHub Repo
-            </button>
-          </div>
-        </div>
-      </div>
+      
+      {isExportDialogOpen && (
+        <ExportDialog
+          structure={structure}
+          isOpen={isExportDialogOpen}
+          onClose={() => setIsExportDialogOpen(false)}
+        />
+      )}
     </div>
   );
 } 
