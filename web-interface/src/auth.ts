@@ -13,16 +13,8 @@ interface SessionParams {
   };
 }
 
-export const authOptions: NextAuthConfig = {
+export const authConfig: NextAuthConfig = {
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID || "",
-      clientSecret: process.env.GITHUB_SECRET || "",
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -42,7 +34,25 @@ export const authOptions: NextAuthConfig = {
         }
         return null;
       }
-    })
+    }),
+    // Only add GitHub provider if credentials are available
+    ...(process.env.GITHUB_ID && process.env.GITHUB_SECRET
+      ? [
+          GithubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
+          })
+        ]
+      : []),
+    // Only add Google provider if credentials are available
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+      ? [
+          GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          })
+        ]
+      : []),
   ],
   session: {
     strategy: "jwt"
@@ -53,18 +63,21 @@ export const authOptions: NextAuthConfig = {
     error: '/auth/error',
   },
   callbacks: {
-    async session({ session, token }: SessionParams) {
+    async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.sub || "";
       }
       return session;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    }
   },
   secret: process.env.NEXTAUTH_SECRET || "your-secret-key-for-development",
   debug: process.env.NODE_ENV === "development",
 };
 
-// Create and export the auth function and handlers
-const nextAuth = NextAuth(authOptions);
-export const auth = nextAuth.auth;
-export const handlers = nextAuth.handlers; 
+export const { auth, handlers, signIn, signOut } = NextAuth(authConfig); 
