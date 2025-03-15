@@ -1,20 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Check if user just registered
+    const registered = searchParams.get('registered');
+    if (registered === 'true') {
+      setSuccessMessage('Account created successfully! You can now sign in.');
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccessMessage('');
 
     try {
       const result = await signIn('credentials', {
@@ -51,6 +63,14 @@ export default function SignIn() {
           <div className="rounded-md bg-red-50 p-4 dark:bg-red-900/20">
             <div className="flex">
               <div className="text-sm text-red-700 dark:text-red-400">{error}</div>
+            </div>
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="rounded-md bg-green-50 p-4 dark:bg-green-900/20">
+            <div className="flex">
+              <div className="text-sm text-green-700 dark:text-green-400">{successMessage}</div>
             </div>
           </div>
         )}
@@ -105,9 +125,9 @@ export default function SignIn() {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+              <Link href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -163,9 +183,9 @@ export default function SignIn() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Don't have an account?{' '}
-            <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+            <Link href="/auth/signup" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
