@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+type Params = {
+  filename: string;
+};
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { filename: string } }
+  { params }: { params: Promise<Params> }
 ) {
   try {
-    const filename = params.filename;
+    const { filename } = await params;
     
     // In a real implementation, we would generate or retrieve the file
     // For now, we'll create a simple JSON response
