@@ -57,6 +57,16 @@ This document tracks the progress of the Concrete project development.
 - [x] Test adaptive concrete template
 - [x] Commit adaptive concrete template
 
+### Milestone 4: Web Interface Development
+- [ ] Create initial design mockups for web interface
+- [ ] Develop chatbot conversation flow
+- [ ] Implement basic visualization components
+- [ ] Create export functionality for .concrete structures
+- [ ] Add multi-modal input options
+- [ ] Implement collaborative features
+- [ ] Test web interface with users
+- [ ] Deploy initial version
+
 ## Current Status
 
 ✅ Completed: Milestone 0 - Project Setup
@@ -67,10 +77,18 @@ This document tracks the progress of the Concrete project development.
 ✅ Project complete with core functionality
 ✅ Completed: Milestone 3 - Create Adaptive Concrete
 ✅ Simplified file structure by combining README.md and system-prompt.md
+🔄 In Progress: Milestone 4 - Web Interface Development (Ideation Phase)
 
 ## Next Steps
 
-1. Update the other concrete templates (base, vite-supabase, adaptive) to use the combined README.md approach
-2. Test the updated templates to ensure they work correctly
+1. ~~Update the other concrete templates (base, vite-supabase, adaptive) to use the combined README.md approach~~ ✅
+2. ~~Test the updated templates to ensure they work correctly~~ ✅
 3. Consider adding more specialized concrete templates in the future
-4. Document usage examples and best practices 
+4. Document usage examples and best practices
+5. Begin development of web interface for Concrete
+
+## Recent Updates
+
+- Added ideation document for expanded next phase vision (.concrete/ideation/expanded-next-phase.md)
+- Created conversation summary for next phase ideation (.concrete/conversations/2024-05-15-next-phase-ideation.md)
+- Updated tracking with new milestone for web interface development 

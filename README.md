@@ -141,6 +141,16 @@ Concrete works best with AI coding assistants that can:
 
 For Cursor users, the `.concrete/README.md` file can be symlinked to `.cursorrules` to provide guidance to the AI assistant.
 
+## Conversations
+
+Important discussions about the project are documented in the `.concrete/conversations/` folder:
+- [2024-03-11-project-setup.md](.concrete/conversations/2024-03-11-project-setup.md): Initial project setup
+- [2024-03-11-base-concrete-implementation.md](.concrete/conversations/2024-03-11-base-concrete-implementation.md): Base concrete implementation
+- [2024-03-11-vite-supabase-concrete-implementation.md](.concrete/conversations/2024-03-11-vite-supabase-concrete-implementation.md): Vite-Supabase concrete implementation
+- [2024-03-11-repository-structure-simplification.md](.concrete/conversations/2024-03-11-repository-structure-simplification.md): Repository structure simplification
+- [2024-03-15-readme-system-prompt-consolidation.md](.concrete/conversations/2024-03-15-readme-system-prompt-consolidation.md): Combining README.md and system-prompt.md into a single file for simplicity and better maintenance
+- [2024-05-15-next-phase-ideation.md](.concrete/conversations/2024-05-15-next-phase-ideation.md): Exploring ideas for the web interface and chatbot experience for the next phase of Concrete
+
 ## Contributing
 
 Contributions to improve the Concrete system are welcome. Please ensure that any contributions maintain the structured approach that makes Concrete effective.
