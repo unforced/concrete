@@ -11,6 +11,14 @@ export default auth((req) => {
     nextUrl.pathname.startsWith('/auth/') || 
     nextUrl.pathname === '/';
 
+  // API routes should be handled by their own auth logic
+  const isApiRoute = nextUrl.pathname.startsWith('/api/');
+  
+  // Skip middleware for API routes
+  if (isApiRoute) {
+    return NextResponse.next();
+  }
+
   // If the user is not logged in and trying to access a protected route
   if (!isLoggedIn && !isPublicRoute) {
     return NextResponse.redirect(new URL('/auth/signin', nextUrl.origin));
